@@ -15,18 +15,11 @@ import java.util.Arrays;
 public class WeChatController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    
     // URL:   http://www.xxxx.com/wechat/
     // Token: 此处TOKEN即为微信接口配置信息的Token
 
     private String TOKEN = "wechat";
-
-
-    @RequestMapping("/test")
-    public String test(){
-        System.out.println("sadasd");
-        return "index";
-    }
 
     /**
      * 验证微信后台配置的服务器地址有效性

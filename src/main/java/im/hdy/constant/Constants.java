@@ -6,7 +6,7 @@ import im.hdy.model.Message;
 public class Constants {
 
     //图片文件保存路径
-    public static final String fileSaveUrl = null;
+    public static String fileSaveUrl = null;
     //每页的数量
     public static final int PAGENUM = 10;
     //session当中的用户id

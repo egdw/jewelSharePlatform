@@ -4,14 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import im.hdy.constant.Constants;
+import im.hdy.model.User;
+import im.hdy.service.UserService;
 import im.hdy.utils.HttpsUtils;
 import im.hdy.utils.UserInfoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class RedirectController {
@@ -19,7 +24,8 @@ public class RedirectController {
 
     public static final String WX_APPID = "wx9944a4f6e303f87d";
     public static final String WX_APPSECRET = "7ff4f93a3565d6101598477ba2ebf75c";
-
+    @Autowired
+    private UserService userService;
 
     /**
      * 微信网页授权流程:
@@ -33,7 +39,7 @@ public class RedirectController {
      */
     @RequestMapping(value = "/url", method = RequestMethod.GET)
     public String wecahtLogin(@RequestParam(name = "code", required = false) String code,
-                              @RequestParam(name = "state") String state) {
+                              @RequestParam(name = "state") String state, HttpSession session) {
 
         // 1. 用户同意授权,获取code
         logger.info("收到微信重定向跳转.");
@@ -120,6 +126,14 @@ public class RedirectController {
                             logger.info("用户昵称:{}", nickName);
                             logger.info("用户性别:{}", sex);
                             logger.info("OpenId:{}", openid);
+                            User user = userService.findByOpenId(openId);
+                            if (user == null) {
+                                //说明是新用户
+                                user = new User(openid, headimgurl, nickName);
+                                user = userService.saveUser(user);
+                            }
+                            logger.info("当前用户:" + user);
+                            session.setAttribute(Constants.CURRENTUSER, user);
                         } catch (JSONException e) {
                             logger.error("获取用户信息失败");
                         }
