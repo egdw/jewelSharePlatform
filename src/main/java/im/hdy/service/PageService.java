@@ -4,6 +4,7 @@ import im.hdy.constant.Constants;
 import im.hdy.model.Page;
 import im.hdy.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,12 @@ public class PageService {
 
     @Autowired
     private MongoTemplate template;
+
+
+    public Page findOne(String id) {
+        Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);
+        return page;
+    }
 
     public void findAll() {
         long count = template.count(new Query(), Page.class);
@@ -71,5 +78,23 @@ public class PageService {
         List<Page> pages = template.find(new Query(Criteria.where("user._id").is(userId)).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
         return pages;
     }
+
+
+    /**
+     * 根据上传时间获取文章
+     *
+     * @param currentPage
+     * @return
+     */
+    public List<Page> findPagesByUploadTime(int currentPage) {
+        return template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+    }
+
+
+    public List<Page> findPagesByMemoirs(int currentPage) {
+        List<Page> pages = template.find(new Query(Criteria.where("isInRecall").is("true")).with(new Sort(Sort.Direction.ASC, "enterInRecallDate")), Page.class);
+        return pages;
+    }
+
 
 }

@@ -20,12 +20,14 @@ public class MyController {
 
     @RequestMapping("getPages")
     @ResponseBody
+    //获取自己发表的文章
     public String getPages(int page, HttpSession session) {
         List<Page> pagesByUserId = service.findPagesByUserId(Constants.CURRENTUSER, page);
         return JSON.serialize(pagesByUserId);
     }
 
     @RequestMapping("getLikeAndComment")
+    //获取别人对我的评论
     public void getLikeAndComment() {
         //暂未实现
     }

@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -31,10 +33,26 @@ public class PageController {
     @Autowired
     private UserInterface userInterface;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public void get() {
-        System.out.println("数据创建");
-        pageService.findAll();
+    @RequestMapping(value = "index", method = RequestMethod.GET)
+    @ResponseBody
+    public String get(String pageId) {
+        Page one = pageService.findOne(pageId);
+        return JSON.toJSONString(one);
+    }
+
+
+    @RequestMapping(value = "best", method = RequestMethod.GET)
+    @ResponseBody
+    public String getVeryBest(int currentPage) {
+        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
+        return JSON.toJSONString(pagesByUploadTime);
+    }
+
+    @RequestMapping(value = "memoirs", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMemoirs(int currentPage) {
+        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(currentPage);
+        return JSON.toJSONString(pagesByMemoirs);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -51,6 +69,7 @@ public class PageController {
         page.setUser(user);
         page.setText(text);
         page.setImgUrl(saveFile.getName());
+        page.setDate(new Date());
         pageService.addPage(page);
         return Constants.successMessage;
     }

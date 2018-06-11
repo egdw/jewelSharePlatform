@@ -1,6 +1,5 @@
 package im.hdy.model;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Document
-public class Page {
+public class Memoirs {
     private String _id;
     private String text;
     private String imgUrl;
@@ -23,8 +22,8 @@ public class Page {
 
     //是否进入回忆录?
     private String isInRecall;
-    private Date enterInRecallDate;
-    public Page() {
+
+    public Memoirs() {
     }
 
     public String get_id() {
@@ -112,13 +111,5 @@ public class Page {
                 ", user=" + user +
                 ", isInRecall='" + isInRecall + '\'' +
                 '}';
-    }
-
-    public Date getEnterInRecallDate() {
-        return enterInRecallDate;
-    }
-
-    public void setEnterInRecallDate(Date enterInRecallDate) {
-        this.enterInRecallDate = enterInRecallDate;
     }
 }
