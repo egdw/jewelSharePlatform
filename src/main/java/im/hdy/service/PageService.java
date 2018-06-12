@@ -3,6 +3,7 @@ package im.hdy.service;
 import im.hdy.constant.Constants;
 import im.hdy.model.Page;
 import im.hdy.model.User;
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -75,7 +76,8 @@ public class PageService {
      * @return
      */
     public List<Page> findPagesByUserId(String userId, int currentPage) {
-        List<Page> pages = template.find(new Query(Criteria.where("user._id").is(userId)).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        //按先后顺序排序
+        List<Page> pages = template.find(new Query(Criteria.where("user._id").is(userId)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
         return pages;
     }
 
@@ -96,5 +98,19 @@ public class PageService {
         return pages;
     }
 
+    /**
+     * 随机获取文章
+     *
+     * @return
+     */
+    public List<Page> findPagesRandom() {
+        long count = template.count(new Query(), Page.class);
+        if (count < 10) {
+            return template.findAll(Page.class);
+        }
+        int nextInt = Constants.RANDOM.nextInt((int) count);
+        //通过随机数获取一段时间的文章
+        return template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
+    }
 
 }

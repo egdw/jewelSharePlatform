@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="user-scalable=no"/>
+<head>
+    <title>你们</title>
+    <link rel="stylesheet" type="text/css" th:href="@{user/css/yours.css}">
+</head>
+<body>
+<div id="main">
+
+    <div id="head">
+        <img th:src="@{user/img/logo.png}">
+        <div id="selecthead">
+            <div id="left" class="smallhead">回忆录</div>
+            <div id="mid" class="smallhead">我想对你说</div>
+            <div id="right" class="smallhead">周一最佳</div>
+        </div>
+    </div>
+
+    <div id="m-body">
+        <ul class="card">
+            <li id="userinfo">
+                <!--<img th:src="@{user/img/tx.png}">-->
+                <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erkD5FHBTAic3s9dkbbjqpicxLY8akDGJJicI0VkOxh6ASkziaHmoRicYV7NLnLrpUHSv89hGbc2DBrldQ/132">
+                <ul>
+                    <!--<li id="username">用户昵称</li>-->
+                    <li id="username">洪德衍</li>
+                    <li id="datetime">2018年06月09日 21:43</li>
+                </ul>
+            </li>
+            <li>
+                <ul id="c-text">
+                    <li id="pala" style="word-break: break-all;">
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    </li>
+                    <li id="photo"><img th:src="@{user/img/photo.png}" style="height: 200px;width: 200px"></li>
+                </ul>
+            </li>
+            <li id="c-foot">
+                <ul>
+                    <li id="footinfo">123&nbsp;赞 · 456&nbsp;评论</li>
+                    <li id="footlogos">
+                        <img th:src="@{user/img/footlogo1.png}" class="footlogo">
+                        <img th:src="@{user/img/footlogo2.png}" class="footlogo">
+                        <img th:src="@{user/img/footlogo3.png}" class="footlogo">
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="foot">
+        <div id="f-left" class="smallfoot">你们</div>
+        <div id="f-right" class="smallfoot">我</div>
+    </div>
+</div>
+</body>
+</html>

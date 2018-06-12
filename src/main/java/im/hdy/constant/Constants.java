@@ -3,6 +3,8 @@ package im.hdy.constant;
 import com.alibaba.fastjson.JSON;
 import im.hdy.model.Message;
 
+import java.util.Random;
+
 public class Constants {
 
     //图片文件保存路径
@@ -17,4 +19,5 @@ public class Constants {
 
     public static final String LOGINURL = "http://test.hongdeyan.cn/jewel/url";
 
+    public static final Random RANDOM = new Random();
 }

@@ -3,16 +3,16 @@ package im.hdy.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 @Document
 public class Like {
     private String _id;
-    private String userId;
+    private LinkedList<String> users;
 
-    private String pageId;
-
-    public Like(String userId, String pageId) {
-        this.userId = userId;
-        this.pageId = pageId;
+    public Like() {
+        users = new LinkedList<String>();
     }
 
     public String get_id() {
@@ -23,28 +23,19 @@ public class Like {
         this._id = _id;
     }
 
-    public String getUserId() {
-        return userId;
+    public LinkedList<String> getUsers() {
+        return users;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getPageId() {
-        return pageId;
-    }
-
-    public void setPageId(String pageId) {
-        this.pageId = pageId;
+    public void setUsers(LinkedList<String> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
         return "Like{" +
                 "_id='" + _id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", pageId='" + pageId + '\'' +
+                ", users=" + users +
                 '}';
     }
 }

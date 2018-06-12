@@ -3,8 +3,10 @@ package im.hdy.controller;
 import com.alibaba.fastjson.JSON;
 import im.hdy.constant.Constants;
 import im.hdy.impl.UserInterface;
+import im.hdy.model.Like;
 import im.hdy.model.Page;
 import im.hdy.model.User;
+import im.hdy.service.LikeService;
 import im.hdy.service.PageService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,16 @@ public class PageController {
     private PageService pageService;
     @Autowired
     private UserInterface userInterface;
+    @Autowired
+    private LikeService likeService;
 
-    @RequestMapping(value = "index", method = RequestMethod.GET)
+    /**
+     * 单个pageId的数据
+     *
+     * @param pageId
+     * @return
+     */
+    @RequestMapping(value = "get", method = RequestMethod.GET)
     @ResponseBody
     public String get(String pageId) {
         Page one = pageService.findOne(pageId);
@@ -41,35 +51,49 @@ public class PageController {
     }
 
 
+    /**
+     * @return
+     */
+    @RequestMapping(value = "index", method = RequestMethod.GET)
+    @ResponseBody
+    public String get() {
+        List<Page> pagesRandom = pageService.findPagesRandom();
+        return JSON.toJSONString(pagesRandom);
+    }
+
     @RequestMapping(value = "best", method = RequestMethod.GET)
     @ResponseBody
-    public String getVeryBest(int currentPage) {
+    public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage) {
         List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
         return JSON.toJSONString(pagesByUploadTime);
     }
 
     @RequestMapping(value = "memoirs", method = RequestMethod.GET)
     @ResponseBody
-    public String getMemoirs(int currentPage) {
+    public String getMemoirs(@RequestParam(required = false, defaultValue = "0") int currentPage) {
         List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(currentPage);
         return JSON.toJSONString(pagesByMemoirs);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
+    //!!! 这里需要Xss防御
     public String add(@RequestParam(required = true) String text, @RequestParam(required = true) MultipartFile file, HttpServletRequest request, HttpSession session) {
         //进行文件的上传
 //        pageService.addPage();
         //图片保存
         File saveFile = SaveFile(request, file);
+        Like like = likeService.saveLikes(new Like());
         //获取到当前用户的id
-        String userId = (String) session.getAttribute(Constants.CURRENTUSER);
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+//        String userId = u.get_id();
         Page page = new Page();
-        User user = userInterface.findOne(userId);
-        page.setUser(user);
+//        User user = userInterface.findOne(userId);
+        page.setUser(u);
         page.setText(text);
         page.setImgUrl(saveFile.getName());
         page.setDate(new Date());
+        page.setLikes(like);
         pageService.addPage(page);
         return Constants.successMessage;
     }

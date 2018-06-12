@@ -15,14 +15,15 @@ public class Page {
 
     private ArrayList<Talk> talks;
 
-    private ArrayList<Like> likes;
+    @DBRef(lazy = true)
+    private Like likes;
     private Date date;
     private Date talkDate;
     @DBRef
     private User user;
 
     //是否进入回忆录?
-    private String isInRecall;
+    private boolean isInRecall;
     private Date enterInRecallDate;
     public Page() {
     }
@@ -59,11 +60,11 @@ public class Page {
         this.talks = talks;
     }
 
-    public ArrayList<Like> getLikes() {
+    public Like getLikes() {
         return likes;
     }
 
-    public void setLikes(ArrayList<Like> likes) {
+    public void setLikes(Like likes) {
         this.likes = likes;
     }
 
@@ -83,11 +84,11 @@ public class Page {
         this.user = user;
     }
 
-    public String getIsInRecall() {
+    public boolean getIsInRecall() {
         return isInRecall;
     }
 
-    public void setIsInRecall(String isInRecall) {
+    public void setIsInRecall(boolean isInRecall) {
         this.isInRecall = isInRecall;
     }
 
