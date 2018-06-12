@@ -1,6 +1,7 @@
 package im.hdy.service;
 
 import im.hdy.constant.Constants;
+import im.hdy.impl.PageInterface;
 import im.hdy.model.Page;
 import im.hdy.model.User;
 import org.apache.tomcat.util.bcel.classfile.Constant;
@@ -19,7 +20,8 @@ public class PageService {
 
     @Autowired
     private MongoTemplate template;
-
+    @Autowired
+    private PageInterface pageInterface;
 
     public Page findOne(String id) {
         Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);
@@ -113,4 +115,8 @@ public class PageService {
         return template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
     }
 
+
+    public void delete(String pageId) {
+        pageInterface.delete(pageId);
+    }
 }
