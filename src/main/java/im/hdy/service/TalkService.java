@@ -1,7 +1,9 @@
 package im.hdy.service;
 
 import im.hdy.constant.Constants;
+import im.hdy.impl.SmallTalkService;
 import im.hdy.impl.TalkInterface;
+import im.hdy.model.SmallTalk;
 import im.hdy.model.Talk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,6 +21,8 @@ public class TalkService {
     private TalkInterface talkInterface;
     @Autowired
     private MongoTemplate template;
+    @Autowired
+    private SmallTalkService smallTalkService;
 
     public Talk findOne(String _id) {
         return talkInterface.findOne(_id);
@@ -35,5 +39,15 @@ public class TalkService {
 
     public void delete(String talkId) {
         talkInterface.delete(talkId);
+    }
+
+
+    public SmallTalk saveSmallTalk(SmallTalk talk){
+        SmallTalk save = smallTalkService.save(talk);
+        return save;
+    }
+
+    public SmallTalk findSmallTalkOne(String _id){
+        return smallTalkService.findOne(_id);
     }
 }

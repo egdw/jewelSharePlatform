@@ -4,6 +4,7 @@ import com.mongodb.util.JSON;
 import com.sun.tools.internal.jxc.ap.Const;
 import im.hdy.constant.Constants;
 import im.hdy.model.Page;
+import im.hdy.model.SmallTalk;
 import im.hdy.model.Talk;
 import im.hdy.model.User;
 import im.hdy.service.PageService;
@@ -29,7 +30,7 @@ public class TalkController {
     private PageService pageService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String addTalk(String pageId, String talk_id, String talk_message, HttpSession session) {
+    public String addTalk(String talk_id, String talk_message, @RequestParam(required = false) String destSmallTalkId, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Talk one = talkService.findOne(talk_id);
         if (one != null) {
@@ -80,6 +81,7 @@ public class TalkController {
         Talk talk = new Talk(new Date(), talk_message);
         talk.setUser(u);
         talk.setParentPageId(pageId);
+        talk.setTalkTime(new Date());
         Talk save = talkService.save(talk);
         talks.add(save);
         pageService.addPage(one);

@@ -28,7 +28,7 @@ public class LikeController {
         Page one = pageService.getOne(id);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Like likes = one.getLikes();
-        likeService.addOrDelNewLikes(likes.get_id(), u.get_id());
+        likeService.addOrDelNewLikes(id, likes, u.get_id());
         return Constants.successMessage;
     }
 

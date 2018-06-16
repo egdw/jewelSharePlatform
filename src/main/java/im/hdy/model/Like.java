@@ -1,15 +1,14 @@
 package im.hdy.model;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-@Document
+//@Document
 public class Like {
     private String _id;
     private LinkedList<String> users;
+    private long total;
 
     public Like() {
         users = new LinkedList<String>();
@@ -24,11 +23,26 @@ public class Like {
     }
 
     public LinkedList<String> getUsers() {
+        this.total = this.users.size();
         return users;
     }
 
     public void setUsers(LinkedList<String> users) {
         this.users = users;
+        this.total = this.users.size();
+    }
+
+
+    public int getLength() {
+        return users.size();
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
     }
 
     @Override
@@ -36,6 +50,7 @@ public class Like {
         return "Like{" +
                 "_id='" + _id + '\'' +
                 ", users=" + users +
+                ", total=" + total +
                 '}';
     }
 }

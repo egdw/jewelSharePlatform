@@ -1,10 +1,10 @@
 package im.hdy.service;
 
+import com.mongodb.WriteResult;
 import im.hdy.constant.Constants;
 import im.hdy.impl.PageInterface;
+import im.hdy.model.Like;
 import im.hdy.model.Page;
-import im.hdy.model.User;
-import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -28,22 +28,24 @@ public class PageService {
         return page;
     }
 
-    public void findAll() {
-        long count = template.count(new Query(), Page.class);
-        template.updateFirst(new Query(Criteria.where("_id").is("5b1bc8d725ac57e5a615c75a")), Update.update("name", "wyj"), User.class);
-        List<Page> all =
-                template.findAll(Page.class);
-        for (Page p : all) {
-            System.out.println(p);
-        }
-        System.out.println(count);
+    public List<Page> findAll() {
+//        long count = template.count(new Query(), Page.class);
+//        template.updateFirst(new Query(Criteria.where("_id").is("5b1bc8d725ac57e5a615c75a")), Update.update("name", "wyj"), User.class);
+//        List<Page> all =
+//                template.findAll(Page.class);
+//        for (Page p : all) {
+//            System.out.println(p);
+//        }
+//        System.out.println(count);
+        return pageInterface.findAll();
     }
 
     /**
      * 添加page
      */
-    public void addPage(Page p) {
-        template.insert(p);
+    public Page addPage(Page p) {
+        Page save = pageInterface.save(p);
+        return save;
     }
 
     /**
@@ -79,7 +81,7 @@ public class PageService {
      */
     public List<Page> findPagesByUserId(String userId, int currentPage) {
         //按先后顺序排序
-        List<Page> pages = template.find(new Query(Criteria.where("user._id").is(userId)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        List<Page> pages = template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
         return pages;
     }
 
@@ -91,12 +93,12 @@ public class PageService {
      * @return
      */
     public List<Page> findPagesByUploadTime(int currentPage) {
-        return template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(Criteria.where("isinrecall").is(false)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
     }
 
 
     public List<Page> findPagesByMemoirs(int currentPage) {
-        List<Page> pages = template.find(new Query(Criteria.where("isInRecall").is("true")).with(new Sort(Sort.Direction.ASC, "enterInRecallDate")), Page.class);
+        List<Page> pages = template.find(new Query(Criteria.where("isinrecall").is(true)).with(new Sort(Sort.Direction.DESC, "enterInRecallDate")), Page.class);
         return pages;
     }
 
@@ -112,11 +114,43 @@ public class PageService {
         }
         int nextInt = Constants.RANDOM.nextInt((int) count);
         //通过随机数获取一段时间的文章
-        return template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(Criteria.where("isinrecall").is(false)).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
     }
 
 
     public void delete(String pageId) {
         pageInterface.delete(pageId);
+    }
+
+    public List<Page> findBest(int currentPage) {
+        Criteria criteria = new Criteria();
+//        System.out.println(template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))), Page.class));
+//        System.out.println(template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "liked")), Page.class));
+        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+//        Aggregation aggregation = Aggregation.newAggregation(
+//                Aggregation.match(Criteria.where("isInRecall").is(false)),
+//                Aggregation.project().and("likes.users").project("size").as("count"));
+
+
+//        ArrayList<AggregationOperation> aggregations = new ArrayList<>();
+//        aggregations.add(Aggregation.match(Criteria.where("isInRecall").is(false)));
+//        aggregations.add(Aggregation.group("likes.users").count().as("total"));
+//        aggregations.add( Aggregation.project("total").and("_id").as("likes.users"));
+//        aggregations.add(Aggregation.sort(Sort.Direction.DESC, "total"));
+//        Aggregation newAggregation = Aggregation.newAggregation(aggregations);
+////        AggregationResults<Page> results = template.aggregate(newAggregation, Page.class);
+//        AggregationResults<Page> results = template.aggregate(newAggregation, Page.class, Page.class);
+//        System.out.println(results.getMappedResults());
+    }
+
+
+    public int updateLikesNum(String pageId, Like like) {
+        String id = pageInterface.findOne(pageId).getLikes().get_id();
+        if (id == like.get_id()) {
+            WriteResult writeResult = template.updateFirst(new Query(Criteria.where("_id").is(pageId)), Update.update("liked", like.getUsers().size()), Page.class);
+            return writeResult.getN();
+        } else {
+            return 0;
+        }
     }
 }

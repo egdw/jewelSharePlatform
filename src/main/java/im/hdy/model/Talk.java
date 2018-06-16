@@ -9,11 +9,13 @@ import java.util.Date;
 @Document
 public class Talk {
     private String _id;
-    private ArrayList<Talk> talks;
+    @DBRef
+    private ArrayList<SmallTalk> talks;
     private Date talkTime;
     private String message;
     private String parentPageId;
     @DBRef
+    //当前发言的用户
     private User user;
 
     public Talk(Date date, String message) {
@@ -31,11 +33,11 @@ public class Talk {
         this._id = _id;
     }
 
-    public ArrayList<Talk> getTalks() {
+    public ArrayList<SmallTalk> getTalks() {
         return talks;
     }
 
-    public void setTalks(ArrayList<Talk> talks) {
+    public void setTalks(ArrayList<SmallTalk> talks) {
         this.talks = talks;
     }
 

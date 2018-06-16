@@ -18,6 +18,8 @@ public class LikeService {
 
     @Autowired
     private LikeInterface likeInterface;
+    @Autowired
+    private PageService pageService;
 
     public void update(Like like) {
 //        Like one = template.findOne(new Query(Criteria.where("_id").is(like.getUserId())), Like.class);
@@ -30,18 +32,20 @@ public class LikeService {
 //        template.insert(like);
     }
 
-    public Like saveLikes(Like like) {
+    public Like saveLikes(Like like, String pageId) {
         Like save = likeInterface.save(like);
+        int size = save.getUsers().size();
+        pageService.updateLikesNum(pageId, save);
         return save;
     }
 
     /**
      * 修改或者添加点赞
-     * @param likeId
+     *
+     * @param like
      * @param userId
      */
-    public void addOrDelNewLikes(String likeId, String userId) {
-        Like like = likeInterface.findOne(likeId);
+    public void addOrDelNewLikes(String pageId, Like like, String userId) {
         LinkedList<String> users = like.getUsers();
         int indexOf = users.indexOf(userId);
         if (indexOf != -1) {
@@ -51,6 +55,8 @@ public class LikeService {
             users.add(userId);
         }
         //添加或删除点赞
-        likeInterface.save(like);
+        Like save = likeInterface.save(like);
+        pageService.updateLikesNum(pageId, save);
+
     }
 }

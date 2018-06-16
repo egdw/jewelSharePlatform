@@ -6,12 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
 @Document
 public class Page {
     private String _id;
     private String text;
-    private String imgUrl;
+    private ArrayList<String> imgUrl;
 
     private ArrayList<Talk> talks;
 
@@ -44,11 +45,11 @@ public class Page {
         this.text = text;
     }
 
-    public String getImgUrl() {
+    public ArrayList<String> getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
+    public void setImgUrl(ArrayList<String> imgUrl) {
         this.imgUrl = imgUrl;
     }
 

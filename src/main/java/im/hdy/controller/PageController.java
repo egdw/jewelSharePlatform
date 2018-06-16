@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,8 +46,11 @@ public class PageController {
      */
     @RequestMapping(value = "get", method = RequestMethod.GET)
     @ResponseBody
-    public String get(String pageId) {
+    public String get(String pageId, HttpSession session) {
         Page one = pageService.findOne(pageId);
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        boolean contains = one.getLikes().getUsers().contains(u.get_id());
+        one.setLiked(contains);
         return JSON.toJSONString(one);
     }
 
@@ -56,22 +60,47 @@ public class PageController {
      */
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
-    public String get() {
+    public String get(HttpSession session) {
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        //用于判断是否是自己点赞的
         List<Page> pagesRandom = pageService.findPagesRandom();
+        for (int i = 0; i < pagesRandom.size(); i++) {
+            Page page = pagesRandom.get(i);
+            boolean contains = page.getLikes().getUsers().contains(u.get_id());
+            page.setLiked(contains);
+        }
         return JSON.toJSONString(pagesRandom);
     }
 
+
     @RequestMapping(value = "best", method = RequestMethod.GET)
     @ResponseBody
-    public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage) {
-        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
-        return JSON.toJSONString(pagesByUploadTime);
+    public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        //用于判断是否是自己点赞的
+//        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
+//        for (int i = 0; i < pagesByUploadTime.size(); i++) {
+//            Page page = pagesByUploadTime.get(i);
+//            boolean contains = page.getLikes().getUsers().contains(u.get_id());
+//            page.setLiked(contains);
+//        }
+
+        List<Page> best = pageService.findBest(currentPage);
+        return JSON.toJSONString(best);
     }
 
     @RequestMapping(value = "memoirs", method = RequestMethod.GET)
     @ResponseBody
-    public String getMemoirs(@RequestParam(required = false, defaultValue = "0") int currentPage) {
+    public String getMemoirs(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+
         List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(currentPage);
+        //用于判断是否是自己点赞的
+        for (int i = 0; i < pagesByMemoirs.size(); i++) {
+            Page page = pagesByMemoirs.get(i);
+            boolean contains = page.getLikes().getUsers().contains(u.get_id());
+            page.setLiked(contains);
+        }
         return JSON.toJSONString(pagesByMemoirs);
     }
 
@@ -93,7 +122,10 @@ public class PageController {
         page.setText(text);
         page.setImgUrl(saveFile.getName());
         page.setDate(new Date());
-        page.setLikes(like);
+//        page.setLikes(like);
+        Page addPage = pageService.addPage(page);
+        Like like = likeService.saveLikes(new Like(), addPage.get_id());
+        addPage.setLikes(like);
         pageService.addPage(page);
         return Constants.successMessage;
     }
@@ -123,4 +155,5 @@ public class PageController {
         }
         return saveFile;
     }
+
 }
