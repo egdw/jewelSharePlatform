@@ -72,6 +72,12 @@ public class TalkController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public String addTalkPage(@RequestParam(required = true) String pageId, @RequestParam(required = true) String talk_message, HttpSession session) {
+        if (RedisUtils.isExist(Constants.TALK_SEND_TIME_NAME)) {
+            //防止请求频率太快
+            return Constants.tooQuickMessage;
+        }
+        //过滤各种非法字符
+        talk_message = HtmlUtils.getNoHTMLString(talk_message,150);
         Page one = pageService.findOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         ArrayList<Talk> talks = one.getTalks();
@@ -85,13 +91,14 @@ public class TalkController {
         Talk save = talkService.save(talk);
         talks.add(save);
         pageService.addPage(one);
+        RedisUtils.setAndExpire(Constants.TALK_SEND_TIME_NAME, " ", Constants.TALK_SEND_TIME);
         return Constants.successMessage;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    //删除评论
-    public void delComment(String talkId) {
-        talkService.delete(talkId);
-    }
+//    @RequestMapping(method = RequestMethod.DELETE)
+//    //删除评论
+//    public void delComment(String talkId) {
+//        talkService.delete(talkId);
+//    }
 
 }

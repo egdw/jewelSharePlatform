@@ -8,6 +8,8 @@ import im.hdy.model.Page;
 import im.hdy.model.User;
 import im.hdy.service.LikeService;
 import im.hdy.service.PageService;
+import im.hdy.utils.HtmlUtils;
+import im.hdy.utils.RedisUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -127,6 +129,7 @@ public class PageController {
         Like like = likeService.saveLikes(new Like(), addPage.get_id());
         addPage.setLikes(like);
         pageService.addPage(page);
+        RedisUtils.setAndExpire(Constants.PAGE_SEND_TIME_NAME, " ", Constants.PAGE_SEND_TIME);
         return Constants.successMessage;
     }
 
