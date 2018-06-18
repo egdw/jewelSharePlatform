@@ -35,4 +35,8 @@ public class UserService {
         User save = userIntrface.save(user);
         return save;
     }
+
+    public void deleteUser(String _id){
+        userIntrface.delete(_id);
+    }
 }

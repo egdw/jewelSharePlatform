@@ -5,6 +5,7 @@ import im.hdy.constant.Constants;
 import im.hdy.impl.PageInterface;
 import im.hdy.model.Like;
 import im.hdy.model.Page;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,10 +15,11 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class PageService {
-
+    private org.slf4j.Logger logger = LoggerFactory.getLogger(PageService.class);
     @Autowired
     private MongoTemplate template;
     @Autowired
@@ -109,12 +111,15 @@ public class PageService {
      */
     public List<Page> findPagesRandom() {
         long count = template.count(new Query(), Page.class);
+        logger.info("随机获取文章的中的所有文章数量"+count);
         if (count < 10) {
             return template.findAll(Page.class);
         }
         int nextInt = Constants.RANDOM.nextInt((int) count);
+        logger.info("随机获取文章的中的随机值"+nextInt);
         //通过随机数获取一段时间的文章
-        return template.find(new Query(Criteria.where("isinrecall").is(false)).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
+        Criteria criteria = new Criteria();
+        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").is(false),Criteria.where("isinrecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
     }
 
 
@@ -145,6 +150,13 @@ public class PageService {
 
 
     public int updateLikesNum(String pageId, Like like) {
+        Page one = pageInterface.findOne(pageId);
+        Like likes = one.getLikes();
+        if(likes == null){
+            one.setLikes(like);
+            pageInterface.save(one);
+        }
+
         String id = pageInterface.findOne(pageId).getLikes().get_id();
         if (id == like.get_id()) {
             WriteResult writeResult = template.updateFirst(new Query(Criteria.where("_id").is(pageId)), Update.update("liked", like.getUsers().size()), Page.class);

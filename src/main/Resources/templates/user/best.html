@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{user/yours/css/yours.css}"/>
+    <!--这里需要修改为cdn镜像.减少流量损耗-->
+    <script type="text/javascript" th:src="@{user/yours/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{user/yours/js/yours.js}"></script>
+    <title>你们</title>
+
+</head>
+<body>
+<div class="head" onload="clickhandle(3)">
+    <div class="imgchangediv">
+        <img th:src="@{user/yours/img/img1.png}" style="display: block;"/>
+        <img th:src="@{user/yours/img/img2.png}" style="display: none;"/>
+        <img th:src="@{user/yours/img/img3.png}" style="display: none;"/>
+        <div class="imgyuan">
+            <font></font>
+            <font></font>
+            <font></font>
+        </div>
+    </div>
+    <ul class="navigation" id="nav">
+        <li class="memoir" onclick="clickhandle(1)">
+            <a href="/jewel/memorize"><img th:src="@{user/yours/img/memoir.png}"><span>回忆录</span></a>
+        </li>
+        <li class="talk" onclick="clickhandle(2)">
+            <img th:src="@{user/yours/img/talk.png}" alt=""><span>我想对你说</span>
+        </li>
+        <li class="mondaybest" onclick="clickhandle(3)">
+            <img th:src="@{user/yours/img/mondaybest.png}"><span>周一最佳</span>
+        </li>
+    </ul>
+</div>
+<div class="foot">
+    <ul class="background">
+        <li class="you">
+            你们
+        </li>
+        <a href="write" target="_top">
+            <li class="release">
+                <img th:src="@{user/yours/img/footimg.png}" alt="">
+            </li>
+        </a>
+        <li class="me">
+            我的
+        </li>
+    </ul>
+</div>
+<!--<h1 th:text="${pages}">这是测试内容</h1>-->
+<ul class="contents" th:each="page:${pages}" >
+
+    <li class="women" th:if="${page.user.boy == false}">
+        <div class="c-head">
+            <img th:src="@{user/yours/img/anonymous-head.png}">
+            <div class="name" th:text="${page.user.name}">用户名</div>
+            <div class="dot"></div>
+        </div>
+        <!--<div class="imgchangediv">-->
+            <!--<img th:src="@{user/yours/img/img1.png}" style="display: block;"/>-->
+            <!--<img th:src="@{user/yours/img/img2.png}" style="display: none;"/>-->
+            <!--<img th:src="@{user/yours/img/img3.png}" style="display: none;"/>-->
+            <!--<div class="imgyuan">-->
+                <!--<font></font>-->
+                <!--<font></font>-->
+                <!--<font></font>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="photo" th:if="${page.imgUrl != null && (page.hidden == null || page.hidden == false)}">
+            <img/>
+            <!--<img th:src="'/jewel/upload/'+${img}" th:each="img:${page.imgUrl}">-->
+            <div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>
+        </div>
+        <div class="c-text">
+            <p th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</p>
+        </div>
+        <div class="c-foot">
+            <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+        </div>
+    </li>
+    <!--<li class="women">-->
+        <!--<div class="c-head">-->
+            <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
+            <!--<div class="name">用户名</div>-->
+            <!--<div class="dot"></div>-->
+        <!--</div>-->
+        <!--<div class="photo">-->
+            <!--<img src="">-->
+            <!--<div class="number">1/9</div>-->
+        <!--</div>-->
+        <!--<div class="c-text">-->
+            <!--<p>文字文字文字纯文字排版背景灰色字体变细匿名用户</p>-->
+        <!--</div>-->
+        <!--<div class="c-foot">-->
+            <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
+            <!--<a href=""><img th:src="@{user/yours/img/like.png}"></a>-->
+            <!--<a href=""><img th:src="@{user/yours/img/comment.png}"></a>-->
+            <!--<a href=""><img th:src="@{user/yours/img/forward.png}"></a>-->
+        <!--</div>-->
+    <!--</li>-->
+    <li class="men"  th:if="${page.user.boy == true && (page.hidden == null || page.hidden == false)}">
+        <div class="c-head">
+            <img th:src="@{user/yours/img/anonymous-head.png}">
+            <div class="name" th:text="${page.user.name}">用户名</div>
+            <div class="dot"></div>
+        </div>
+        <div class="photo" th:if="${page.imgUrl != null}">
+            <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
+            <div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>
+        </div>
+        <div class="c-text">
+            <p th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</p>
+        </div>
+        <div class="c-foot">
+            <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
+            <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
+            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+        </div>
+    </li>
+
+    <li class="anonymous" th:if="${page.hidden != null && page.hidden == true}">
+        <div class="c-head">
+            <img th:src="@{user/yours/img/anonymous-head.png}">
+            <div class="name">匿名</div>
+            <div class="dot"></div>
+        </div>
+        <div class="photo">
+            <img src="">
+            <div class="number">1/9</div>
+        </div>
+        <div class="c-text">
+            <p>文字文字文字纯文字排版背景灰色字体变细匿名用户</p>
+        </div>
+        <div class="c-foot">
+            <span>785赞&nbsp;·&nbsp;182 评论</span>
+            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+        </div>
+    </li>
+</ul>
+</body>
+</html>

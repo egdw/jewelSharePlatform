@@ -23,12 +23,12 @@ public class LikeController {
     private LikeService likeService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String addOrCancle(@RequestParam(value = "pageId") String id, HttpSession session) {
+    public String addOrCancle(@RequestParam(value = "pageId") String pageId, HttpSession session) {
         //根据Pageid进行修改增加或取消
-        Page one = pageService.getOne(id);
+        Page one = pageService.getOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Like likes = one.getLikes();
-        likeService.addOrDelNewLikes(id, likes, u.get_id());
+        likeService.addOrDelNewLikes(pageId, likes, u.get_id());
         return Constants.successMessage;
     }
 

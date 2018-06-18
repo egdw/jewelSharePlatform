@@ -75,6 +75,8 @@ public class PageController {
     }
 
 
+
+
     @RequestMapping(value = "best", method = RequestMethod.GET)
     @ResponseBody
     public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
