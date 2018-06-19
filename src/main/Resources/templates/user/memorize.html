@@ -9,8 +9,8 @@
     <title>你们</title>
 
 </head>
-<body>
-<div class="head" onload="clickhandle(1)">
+<body  onload="clickhandle(1)">
+<div class="head">
     <div class="imgchangediv">
         <img th:src="@{user/yours/img/img1.png}" style="display: block;"/>
         <img th:src="@{user/yours/img/img2.png}" style="display: none;"/>
@@ -22,21 +22,21 @@
         </div>
     </div>
     <ul class="navigation" id="nav">
-        <li class="memoir" onclick="clickhandle(1)">
+        <li class="memoir">
             <img th:src="@{user/yours/img/memoir.png}"><span>回忆录</span>
         </li>
-        <li class="talk" onclick="clickhandle(2)">
-            <img th:src="@{user/yours/img/talk.png}" alt=""><span>我想对你说</span>
+        <li class="talk">
+            <a href="/jewel/"><img th:src="@{user/yours/img/talk.png}" alt=""><span>我想对你说</span></a>
         </li>
-        <li class="mondaybest" onclick="clickhandle(3)">
-            <img th:src="@{user/yours/img/mondaybest.png}"><span>周一最佳</span>
+        <li class="mondaybest">
+            <a href="/jewel/best"><img th:src="@{user/yours/img/mondaybest.png}"><span>周一最佳</span></a>
         </li>
     </ul>
 </div>
 <div class="foot">
     <ul class="background">
         <li class="you">
-            你们
+            <a href="/jewel/" style="text-decoration: none;color: #0f0f0f">你们</a>
         </li>
         <a href="write" target="_top">
             <li class="release">
@@ -53,7 +53,8 @@
 
     <li class="women" th:if="${page.user.boy == false}">
         <div class="c-head">
-            <img th:src="@{user/yours/img/anonymous-head.png}">
+            <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
+            <img th:src="${page.user.imgUrl}">
             <div class="name" th:text="${page.user.name}">用户名</div>
             <div class="dot"></div>
         </div>
@@ -107,7 +108,8 @@
     <!--</li>-->
     <li class="men"  th:if="${page.user.boy == true && (page.hidden == null || page.hidden == false)}">
         <div class="c-head">
-            <img th:src="@{user/yours/img/anonymous-head.png}">
+            <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
+            <img th:src="${page.user.imgUrl}">
             <div class="name" th:text="${page.user.name}">用户名</div>
             <div class="dot"></div>
         </div>
@@ -152,4 +154,10 @@
     </li>
 </ul>
 </body>
+
+<script>
+    $(document).ready(function(){
+        clickhandle(1);
+    });
+</script>
 </html>

@@ -131,7 +131,7 @@ public class PageService {
         Criteria criteria = new Criteria();
 //        System.out.println(template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))), Page.class));
 //        System.out.println(template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "liked")), Page.class));
-        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).with(new Sort(Sort.Direction.DESC,"liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
 //        Aggregation aggregation = Aggregation.newAggregation(
 //                Aggregation.match(Criteria.where("isInRecall").is(false)),
 //                Aggregation.project().and("likes.users").project("size").as("count"));

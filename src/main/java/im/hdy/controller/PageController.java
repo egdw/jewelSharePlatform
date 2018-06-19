@@ -11,6 +11,8 @@ import im.hdy.service.PageService;
 import im.hdy.utils.HtmlUtils;
 import im.hdy.utils.RedisUtils;
 import net.coobird.thumbnailator.Thumbnails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ import java.util.UUID;
 @RequestMapping(value = "page")
 public class PageController {
 
-
+    private Logger log = LoggerFactory.getLogger(PageController.class);
     @Autowired
     private PageService pageService;
     @Autowired
@@ -75,19 +77,17 @@ public class PageController {
     }
 
 
-
-
     @RequestMapping(value = "best", method = RequestMethod.GET)
     @ResponseBody
     public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         //用于判断是否是自己点赞的
-//        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
-//        for (int i = 0; i < pagesByUploadTime.size(); i++) {
-//            Page page = pagesByUploadTime.get(i);
-//            boolean contains = page.getLikes().getUsers().contains(u.get_id());
-//            page.setLiked(contains);
-//        }
+        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
+        for (int i = 0; i < pagesByUploadTime.size(); i++) {
+            Page page = pagesByUploadTime.get(i);
+            boolean contains = page.getLikes().getUsers().contains(u.get_id());
+            page.setLiked(contains);
+        }
 
         List<Page> best = pageService.findBest(currentPage);
         return JSON.toJSONString(best);
@@ -108,10 +108,24 @@ public class PageController {
         return JSON.toJSONString(pagesByMemoirs);
     }
 
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String add2(@RequestParam(required = true) String text, @RequestParam(required = false) MultipartFile[] file, HttpServletRequest request, HttpSession session, String isHidden) {
+//        System.out.println(isHidden);
+//        return "";
+//    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    //!!! 这里需要Xss防御
-    public String add(@RequestParam(required = true) String text, @RequestParam(required = true) MultipartFile file, HttpServletRequest request, HttpSession session) {
+    //!!! 这里需要Xss防御(完成)
+    public String add(@RequestParam(required = true) String text, @RequestParam(required = false) MultipartFile[] file, HttpServletRequest request, HttpSession session, String isHidden) {
+        if (RedisUtils.isExist(Constants.PAGE_SEND_TIME_NAME)) {
+            //防止请求频率太快
+            return Constants.tooQuickMessage;
+        }
+
+        //过滤所有的html代码
+        text = HtmlUtils.getNoHTMLString(text, 300);
+        log.info("过滤掉所有的html代码", text);
         //进行文件的上传
 //        pageService.addPage();
         //图片保存
@@ -130,8 +144,9 @@ public class PageController {
         Page addPage = pageService.addPage(page);
         Like like = likeService.saveLikes(new Like(), addPage.get_id());
         addPage.setLikes(like);
-        pageService.addPage(page);
+        Page addPage1 = pageService.addPage(page);
         RedisUtils.setAndExpire(Constants.PAGE_SEND_TIME_NAME, " ", Constants.PAGE_SEND_TIME);
+        log.info("添加的内容" + addPage1);
         return Constants.successMessage;
     }
 

@@ -7,10 +7,10 @@
 <body>
 <div class="maoboli"></div>
 <div class="floor">
-    <form method='post' enctype="multipart/form-data">
+    <form method='post' action="/jewel/page" enctype="multipart/form-data">
         <ul class="head">
             <a href="#" onClick="javaScript:history.go(-1)">
-                <li class="back"><img th:src="@{user/writing/img/back.png}"></li>
+                <li class="back"><img onclick="javascript:history.back(-1);" th:src="@{user/writing/img/back.png}"></li>
             </a>
             <li class="text">发文章</li>
             <a href="">
@@ -28,15 +28,18 @@
         </ul>
         <ul class="foot">
             <li class="release">
-                <a href=""><img th:src="@{user/writing/img/release.png}">
+                <input type="submit" value="提交">
+                <a href="#" onclick=""><img th:src="@{user/writing/img/release.png}">
                     发布</a>
+                <input type="submit" value="提交">
             </li>
             <li class="anonymous">
-                <a href=""><img th:src="@{user/writing/img/anonymous.png}">
+                <input type="radio" name="isHidden" value="true"/>
+                <a href="#" onclick=""><img th:src="@{user/writing/img/anonymous.png}">
                     匿名</a>
             </li>
         </ul>
-        <textarea cols="10" rows="10" class="content" placeholder="我想说......"></textarea>
+        <textarea cols="10" rows="10" class="content" name="text" placeholder="我想说......" maxlength="300" minlength="10"></textarea>
     </form>
 </div>
 </body>
