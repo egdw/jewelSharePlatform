@@ -77,9 +77,11 @@
             <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
             <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
             <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
             <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <!--<p th:text="${page.liked}"></p>-->
+            <a href="#" onclick="" th:if="${page.liked == null || page.liked == false}"><img th:src="@{user/yours/img/like.png}"></a>
+            <a href="#" onclick="" th:if="${page.liked != null && page.liked == true}"><img th:src="@{user/yours/img/s-like.png}"></a>
         </div>
     </li>
     <!--<li class="women">-->
@@ -122,9 +124,9 @@
             <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
             <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
             <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
-            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
             <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
         </div>
     </li>
 
@@ -147,9 +149,9 @@
             <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
             <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
             <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
-            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
             <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
+            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
         </div>
     </li>
 </ul>

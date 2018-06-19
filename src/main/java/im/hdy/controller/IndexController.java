@@ -47,7 +47,7 @@ public class IndexController {
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0) {
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 page.setLiked(contains);
             }
@@ -72,7 +72,7 @@ public class IndexController {
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0) {
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 page.setLiked(contains);
             }
@@ -99,7 +99,7 @@ public class IndexController {
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0) {
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 page.setLiked(contains);
             }
