@@ -26,10 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "page")
@@ -66,13 +63,27 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
+        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+        session.setAttribute(Constants.CURRENTUSER, one);
+
+
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         //用于判断是否是自己点赞的
         List<Page> pagesRandom = pageService.findPagesRandom();
         for (int i = 0; i < pagesRandom.size(); i++) {
             Page page = pagesRandom.get(i);
-            boolean contains = page.getLikes().getUsers().contains(u.get_id());
-            page.setLiked(contains);
+            Like likes =
+                    page.getLikes();
+            LinkedList<String> users = likes.getUsers();
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+                boolean contains = users.contains(u.get_id());
+                page.setLiked(contains);
+            }
+            User user = page.getUser();
+            if (user == null) {
+                pageService.delete(page.get_id());
+                pagesRandom.remove(i);
+            }
         }
         return JSON.toJSONString(pagesRandom);
     }
@@ -83,14 +94,17 @@ public class PageController {
     public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         //用于判断是否是自己点赞的
-        List<Page> pagesByUploadTime = pageService.findPagesByUploadTime(currentPage);
-        for (int i = 0; i < pagesByUploadTime.size(); i++) {
-            Page page = pagesByUploadTime.get(i);
-            boolean contains = page.getLikes().getUsers().contains(u.get_id());
-            page.setLiked(contains);
+        List<Page> best = pageService.findBest(0);
+        for (int i = 0; i < best.size(); i++) {
+            Page page = best.get(i);
+            Like likes =
+                    page.getLikes();
+            LinkedList<String> users = likes.getUsers();
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+                boolean contains = users.contains(u.get_id());
+                page.setLiked(contains);
+            }
         }
-
-        List<Page> best = pageService.findBest(currentPage);
         return JSON.toJSONString(best);
     }
 
@@ -98,13 +112,17 @@ public class PageController {
     @ResponseBody
     public String getMemoirs(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
-
-        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(currentPage);
+        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(0);
         //用于判断是否是自己点赞的
         for (int i = 0; i < pagesByMemoirs.size(); i++) {
             Page page = pagesByMemoirs.get(i);
-            boolean contains = page.getLikes().getUsers().contains(u.get_id());
-            page.setLiked(contains);
+            Like likes =
+                    page.getLikes();
+            LinkedList<String> users = likes.getUsers();
+            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+                boolean contains = users.contains(u.get_id());
+                page.setLiked(contains);
+            }
         }
         return JSON.toJSONString(pagesByMemoirs);
     }
@@ -136,6 +154,8 @@ public class PageController {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
 //        String userId = u.get_id();
         Page page = new Page();
+        page.setIsInRecall(false);
+        page.setInRecall(false);
 //        User user = userInterface.findOne(userId);
         page.setUser(u);
         page.setText(text);
@@ -166,11 +186,6 @@ public class PageController {
         String uuid_fileName = UUID.randomUUID().toString();
 
         File saveFile = new File(Constants.fileSaveUrl, uuid_fileName + ".jpg");
-//        try {
-//            file.transferTo(saveFile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         try {
             //保存压缩图
             Thumbnails.of(file.getInputStream()).scale(1f)

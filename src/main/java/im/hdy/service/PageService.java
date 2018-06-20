@@ -95,12 +95,12 @@ public class PageService {
      * @return
      */
     public List<Page> findPagesByUploadTime(int currentPage) {
-        return template.find(new Query(Criteria.where("isinrecall").is(false)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
     }
 
 
     public List<Page> findPagesByMemoirs(int currentPage) {
-        List<Page> pages = template.find(new Query(Criteria.where("isinrecall").is(true)).with(new Sort(Sort.Direction.DESC, "enterInRecallDate")), Page.class);
+        List<Page> pages = template.find(new Query(Criteria.where("isInRecall").is(true)).with(new Sort(Sort.Direction.DESC, "enterInRecallDate")), Page.class);
         return pages;
     }
 
@@ -110,16 +110,22 @@ public class PageService {
      * @return
      */
     public List<Page> findPagesRandom() {
-        long count = template.count(new Query(), Page.class);
+        long count = template.count(new Query(new Criteria().orOperator(Criteria.where("isInRecall").is(false), Criteria.where("isInRecall").exists(false))), Page.class);
         logger.info("随机获取文章的中的所有文章数量" + count);
-        if (count < 10) {
-            return template.findAll(Page.class);
-        }
         int nextInt = Constants.RANDOM.nextInt((int) count);
+        if (count < 10) {
+            return template.find(new Query(new Criteria().orOperator(Criteria.where("isInRecall").is(false), Criteria.where("isInRecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")), Page.class);
+        }
         logger.info("随机获取文章的中的随机值" + nextInt);
         //通过随机数获取一段时间的文章
         Criteria criteria = new Criteria();
-        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").is(false), Criteria.where("isinrecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
+        if (count - nextInt < 10) {
+            nextInt = (int) (nextInt - (count - nextInt));
+            if (nextInt < 0) {
+                nextInt = 0;
+            }
+        }
+        return template.find(new Query(criteria.orOperator(Criteria.where("isInRecall").is(false), Criteria.where("isInRecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
     }
 
 
@@ -131,7 +137,7 @@ public class PageService {
         Criteria criteria = new Criteria();
 //        System.out.println(template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))), Page.class));
 //        System.out.println(template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "liked")), Page.class));
-        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).with(new Sort(Sort.Direction.DESC, "liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(criteria.orOperator(Criteria.where("isInRecall").exists(false), Criteria.where("isInRecall").is(false))).with(new Sort(Sort.Direction.DESC, "liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
 //        Aggregation aggregation = Aggregation.newAggregation(
 //                Aggregation.match(Criteria.where("isInRecall").is(false)),
 //                Aggregation.project().and("likes.users").project("size").as("count"));

@@ -163,12 +163,36 @@
         var scrollHeight = $(document).height();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        console.log("scrollTop:"+scrollTop)
-        console.log("windowHeight:"+windowHeight)
-        console.log("scrollHeight:"+scrollHeight)
-        console.log("scrollTop + windowHeight:"+(scrollTop + windowHeight))
+        // console.log("scrollTop:"+scrollTop)
+        // console.log("windowHeight:"+windowHeight)
+        // console.log("scrollHeight:"+scrollHeight)
+        // console.log("scrollTop + windowHeight:"+(scrollTop + windowHeight))
         if(scrollTop + windowHeight == (scrollHeight-1)){
            console.log("到达了底部..")
+            ﻿$.ajax({
+                url:'/jewel/page/index',
+                type:'GET', //GET
+                async:true,    //或false,是否异步
+                timeout:5000,    //超时时间
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend:function(xhr){
+                    console.log(xhr)
+                    console.log('发送前')
+                },
+                success:function(data,textStatus,jqXHR){
+                    console.log(data)
+                    console.log(textStatus)
+                    console.log(jqXHR)
+                },
+                error:function(xhr,textStatus){
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                },
+                complete:function(){
+                    console.log('结束')
+                }
+            })
         }
     });
 </script>

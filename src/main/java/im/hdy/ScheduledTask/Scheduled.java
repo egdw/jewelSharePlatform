@@ -47,6 +47,7 @@ public class Scheduled {
             //然后就标注文章为纪念,不再在其中间显示
             Page one = pageService.findOne(topPageId);
             one.setInRecall(true);
+            one.setIsInRecall(true);
             pageService.update(one);
         }
     }
