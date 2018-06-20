@@ -130,12 +130,12 @@ public class RedirectController {
                             if (user == null) {
                                 //说明是新用户
                                 user = new User(openid, headimgurl, nickName);
-                                if(sex.equals("1")){
-                                    //说明是男生
-                                    user.setBoy(true);
-                                }else{
-                                    user.setBoy(false);
-                                }
+                            }
+                            if(sex.equals("1")){
+                                //说明是男生
+                                user.setBoy(true);
+                            }else{
+                                user.setBoy(false);
                             }
                             user = userService.saveUser(user);
                             logger.info("当前用户:" + user);

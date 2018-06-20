@@ -3,11 +3,11 @@
 	margin:0;
 }
 body{
-    background: url(../img/bg.png) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-   	background-size: cover;
+	background: url(../img/bg.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	height: 100%;
 	width: 100%
 }
@@ -42,7 +42,7 @@ a{
 	width: 30%;
 	height: 100%;
 	padding-top: 2.5em;
-	padding-left: 3em;		
+	padding-left: 3em;
 }
 .back img{
 	height: 50%;
@@ -54,18 +54,13 @@ a{
 	text-align: center;
 	color: #8e8e8e;
 	font-size: 3em;
-	padding-top: 0.7em;	
+	padding-top: 0.7em;
 }
 .camera{
-	float: left;
+	float: right;
 	width: 30%;
 	height: 100%;
 	padding-top: 2.5em;
-}
-.camera img{
-	height: 50%;
-	float:right;
-	margin-right: 3em;
 }
 .foot{
 	position: absolute;
@@ -86,11 +81,18 @@ a{
 	width: 20%;
 	padding-left: 0.7em;
 }
-.release img{
-	height: 1em;
+.release input{
+	font-size: 1em;
+	color: #8e8e8e;
+	background: #fff url(../img/release.png) 0 0 no-repeat;
+	background-size: 1em 1em;
+	padding-left: 1em;
+	border: 0;
 }
-.anonymous img{
-	height: 0.7em;
+.anonymous input{
+	font-size: 1em;
+	height: 1em;
+	width: 1em;
 }
 
 .content{

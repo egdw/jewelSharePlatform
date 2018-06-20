@@ -83,7 +83,7 @@ public class PageService {
      */
     public List<Page> findPagesByUserId(String userId, int currentPage) {
         //按先后顺序排序
-        List<Page> pages = template.find(new Query().with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        List<Page> pages = template.find(new Query(Criteria.where("user._id").is(userId)).with(new Sort(Sort.Direction.DESC, "date")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
         return pages;
     }
 
@@ -111,15 +111,15 @@ public class PageService {
      */
     public List<Page> findPagesRandom() {
         long count = template.count(new Query(), Page.class);
-        logger.info("随机获取文章的中的所有文章数量"+count);
+        logger.info("随机获取文章的中的所有文章数量" + count);
         if (count < 10) {
             return template.findAll(Page.class);
         }
         int nextInt = Constants.RANDOM.nextInt((int) count);
-        logger.info("随机获取文章的中的随机值"+nextInt);
+        logger.info("随机获取文章的中的随机值" + nextInt);
         //通过随机数获取一段时间的文章
         Criteria criteria = new Criteria();
-        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").is(false),Criteria.where("isinrecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").is(false), Criteria.where("isinrecall").exists(false))).with(new Sort(Sort.Direction.DESC, "date")).skip(nextInt).limit(Constants.PAGENUM), Page.class);
     }
 
 
@@ -131,7 +131,7 @@ public class PageService {
         Criteria criteria = new Criteria();
 //        System.out.println(template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))), Page.class));
 //        System.out.println(template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "liked")), Page.class));
-        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).with(new Sort(Sort.Direction.DESC,"liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
+        return template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))).with(new Sort(Sort.Direction.DESC, "liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
 //        Aggregation aggregation = Aggregation.newAggregation(
 //                Aggregation.match(Criteria.where("isInRecall").is(false)),
 //                Aggregation.project().and("likes.users").project("size").as("count"));
@@ -152,7 +152,7 @@ public class PageService {
     public int updateLikesNum(String pageId, Like like) {
         Page one = pageInterface.findOne(pageId);
         Like likes = one.getLikes();
-        if(likes == null){
+        if (likes == null) {
             one.setLikes(like);
             pageInterface.save(one);
         }

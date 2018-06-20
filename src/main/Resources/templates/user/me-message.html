@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>我的</title>
+    <link rel="stylesheet" th:href="@{/me/css/me.css}">
+    <script type="text/javascript" th:src="@{/me/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/me/js/me.js}"></script>
+</head>
+<body>
+<div class="top">
+    <ul class="head">
+        <li class="headphoto"><img th:src="${session.currentUser.imgUrl}" alt=""></li>
+        <li class="username" th:text="${session.currentUser.name}">微信名</li>
+    </ul>
+    <ul class="nav" id="nav">
+        <a href="/jewel/me">
+            <li class="hearttalk"><!--切换css样式改图片-->
+                <span>心里话</span>
+            </li>
+        </a>
+        <a href="/jewel/me_message">
+            <li class="messages-s"><!--切换css样式改图片-->
+                <span style="color: #0f0f0f;text-decoration: none">消息</span>
+            </li>
+        </a>
+    </ul>
+</div>
+<div class="foot">
+    <ul class="background">
+        <li class="you">
+            <a href="/jewel/" style="text-decoration: none;color: #0f0f0f">你们</a>
+        </li>
+        <a href="write" target="_top">
+            <li class="release">
+                <img th:src="@{user/yours/img/footimg.png}" alt="">
+            </li>
+        </a>
+        <li class="me">
+            <a href="/jewel/me_message" style="text-decoration: none;color: #74B0CC">我的</a>
+        </li>
+    </ul>
+</div>
+<ul class="contents">
+    <li class="msg">
+        <p>用户1<strong>评论</strong>了您的文章<strong>文章前段摘要</strong>：厉害了厉害了...</p>
+        <span>1小时前</span>
+    </li>
+</ul>
+</body>
+</html>

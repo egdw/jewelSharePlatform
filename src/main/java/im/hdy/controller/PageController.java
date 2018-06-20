@@ -115,7 +115,7 @@ public class PageController {
 //    }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
+//    @ResponseBody
     //!!! 这里需要Xss防御(完成)
     public String add(@RequestParam(required = true) String text, @RequestParam(required = false) MultipartFile[] file, HttpServletRequest request, HttpSession session, String isHidden) {
         if (RedisUtils.isExist(Constants.PAGE_SEND_TIME_NAME)) {
@@ -147,7 +147,8 @@ public class PageController {
         Page addPage1 = pageService.addPage(page);
         RedisUtils.setAndExpire(Constants.PAGE_SEND_TIME_NAME, " ", Constants.PAGE_SEND_TIME);
         log.info("添加的内容" + addPage1);
-        return Constants.successMessage;
+        return "redirect:/user/me";
+//        return Constants.successMessage;
     }
 
 

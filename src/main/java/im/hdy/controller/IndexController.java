@@ -1,5 +1,6 @@
 package im.hdy.controller;
 
+import com.mongodb.util.JSON;
 import im.hdy.constant.Constants;
 import im.hdy.model.Like;
 import im.hdy.model.Page;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
@@ -36,7 +38,7 @@ public class IndexController {
 //        return "index";
 //        return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9944a4f6e303f87d&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
 //        userService.deleteUser("5b1bc8d725ac57e5a615c75a");
-        //临时使用
+////        临时使用
 //        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
 //        session.setAttribute(Constants.CURRENTUSER, one);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -113,4 +115,30 @@ public class IndexController {
     public String write() {
         return "user/writing";
     }
+
+
+    @RequestMapping(value = "me", method = RequestMethod.GET)
+    public String me(@RequestParam(required = false, defaultValue = "0") int page, HttpSession session, Map<String, Object> maps) {
+//        userService.deleteUser("5b1bc8d725ac57e5a615c75a");
+//        临时使用
+//        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
+//        session.setAttribute(Constants.CURRENTUSER, one);
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        List<Page> pagesByUserId = pageService.findPagesByUserId(u.get_id(), page);
+//        return JSON.serialize(pagesByUserId);
+//        session.setAttribute("pages", pagesByUserId);
+        maps.put("pages",pagesByUserId);
+        logger.info("获取到的我发布的文章:" + pagesByUserId);
+        return "user/me";
+    }
+
+    @RequestMapping(value = "me_message", method = RequestMethod.GET)
+    public String me_message(HttpSession session) {
+//        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
+//        session.setAttribute(Constants.CURRENTUSER, one);
+//        session.setAttribute(Constants.CURRENTUSER, one);
+
+        return "user/me-message";
+    }
+
 }

@@ -23,7 +23,7 @@ window.onload=function(){
 }
 //一轮过后，还是第二轮
 function autoPlay(){
-    if(index>2){
+    if(index>4){
         index=0;
     }
     changeImg(index++);
@@ -61,7 +61,50 @@ $(function () {
         }
         ); 
     }
-); 
+);
+
+// $(window).scroll(function () {
+//     //已经滚动到上面的页面高度
+//     var scrollTop = parseFloat($(this).scrollTop()),
+//         //页面高度
+//         scrollHeight = $(document).height(),
+//         //浏览器窗口高度
+//         windowHeight = parseFloat($(this).height()),
+//         totalHeight = scrollTop + windowHeight;
+//     console.log("totalHeight:"+totalHeight)
+//     //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+//     if (scrollTop + windowHeight >= scrollHeight - 0.7) {
+//         console.log("滚动到了底部!!!")
+//         // //一级分类
+//         // var first = $("#h_first").val(),
+//         //     //二级分类
+//         //     second = $("#h_second").val(),
+//         //     //分页数
+//         //     num = parseInt($("#pageNum").val()),
+//         //     num = num + 1;
+//         // $("#pageNum").attr('value', num);
+//         // $.ajax({
+//         //     type: 'post',
+//         //     url: '/MicroPortal/ContentListForNotice?f=' + first + '&s=' + second + '&t=&PageIndex=' + num,
+//         //     beforeSend: function (XMLHttpRequest) {
+//         //         $("#loadMore").removeClass('hidden').text('正在加载数据...');
+//         //     },
+//         //     success: function (data) {
+//         //         if (data.length == 0) {
+//         //             $("#loadMore").removeClass('hidden').text('已加载全部数据！');
+//         //         }
+//         //         var data = getTime(data);
+//         //         for (var i = 0, length = data.length; i < length; i++) {
+//         //             $("#infoList").append("<li><a href='public_content.html?id=" + data[i].Id + "&f=" + first + "&s=" + second + "'><span>" + data[i].Title + "</span><span class='time'>" + data[i].PublishTime + "</span></a></li>");
+//         //         }
+//         //     },
+//         //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+//         //         $("#loadMore").removeClass('hidden').text('数据加载失败，请重试！');
+//         //     }
+//         // });
+//     }
+// });
+
 function clickhandle(i){
     console.log(i);
     $('.navigation span').css('display', 'none');
@@ -85,6 +128,6 @@ function clickhandle(i){
         default:
             // statements_def
             break;
-    }        
+    }
 
 }

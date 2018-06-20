@@ -31,7 +31,7 @@
 <div class="foot">
     <ul class="background">
         <li class="you">
-            <a href="/jewel/" style="text-decoration: none;color: #0f0f0f">你们</a>
+            <a href="/jewel/" style="text-decoration: none;color: #74B0CC">你们</a>
         </li>
         <a href="write" target="_top">
             <li class="release">
@@ -39,7 +39,7 @@
             </li>
         </a>
         <li class="me">
-            我的
+            <a href="/jewel/me_message" style="text-decoration: none;color: #0f0f0f">我的</a>
         </li>
     </ul>
 </div>
@@ -156,4 +156,20 @@
     </li>
 </ul>
 </body>
+
+<script>
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        console.log("scrollTop:"+scrollTop)
+        console.log("windowHeight:"+windowHeight)
+        console.log("scrollHeight:"+scrollHeight)
+        console.log("scrollTop + windowHeight:"+(scrollTop + windowHeight))
+        if(scrollTop + windowHeight == (scrollHeight-1)){
+           console.log("到达了底部..")
+        }
+    });
+</script>
 </html>
