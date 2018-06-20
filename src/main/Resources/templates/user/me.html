@@ -66,7 +66,7 @@
             <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
         </div>
         <div class="c-text">
-            <p th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</p>
+            <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}" th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
         </div>
         <div class="c-foot">
             <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
@@ -94,7 +94,7 @@
             <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
         </div>
         <div class="c-text">
-            <p th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</p>
+            <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}" th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
         </div>
         <div class="c-foot">
             <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>

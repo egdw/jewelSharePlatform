@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>详情</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/user/detail/css/details.css}">
+    <!--<script type="text/javascript" th:src="@{/user/detail/js/jquery-3.3.1.min.js}"></script>-->
+    <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/user/detail/js/details.js}"></script>
+    <script src="https://cdn.bootcss.com/jquery.swipebox/1.4.4/js/jquery.swipebox.min.js"></script>
+    <link href="https://cdn.bootcss.com/jquery.swipebox/1.4.4/css/swipebox.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="box">
+    <ul class="head">
+        <a href="">
+            <li class="back"><img th:src="@{img/back.png}" alt=""></li>
+        </a>
+        <li class="headphoto"><img th:src="${session.currentUser.imgUrl}"></li>
+        <li class="username" th:text="${session.currentUser.name}">用户名</li>
+    </ul>
+    <div class="info">
+        <p th:text="${page.text}">文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</p>
+        <div class="photos swipeboxEx" th:if="${page.imgUrl!=null && page.imgUrl.size() > 0}">
+            <a rel="gallery-1" class="swipebox" th:href="${'/jewel/upload/'+img}" th:each="img:${page.imgUrl}">
+                <img th:src="${'/jewel/upload/'+img}" alt="image"/>
+            </a>
+            <!--<img th:src="${'/jewel/upload/'+img}" alt="" th:each="img:${page.imgUrl}">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+            <!--<img th:src="@{/user/detail/img/img1.png}" alt="">-->
+        </div>
+    </div>
+    <div class="c-foot">
+        <span>785赞&nbsp;·&nbsp;182 评论</span>
+        <a href="#" onclick="Toast('请点击右上角按钮转发！',2000)"><img th:src="@{/user/detail/img/forward.png}"></a>
+        <a href="#" onclick="comment()"><img th:src="@{/user/detail/img/comment.png}"></a>
+        <a href="#" onclick="like()"><img th:src="@{/user/detail/img/like.png}"></a>
+    </div>
+    <form action="" class="pinlun">
+        <textarea cols="10" rows="20" class="c-textarea"></textarea>
+        <input type="submit" name="" value="回复">
+    </form>
+    <ul class="comments">
+        <li class="one"><strong>用户名1</strong>：这是一级评论这是一级评论这是一级评论这是一级评论</li>
+        <li class="one"><strong>用户名2</strong>：这是一级评论
+            <ul class="comments-2">
+                <li class="two"><strong>用户</strong>回复<strong>用户名2</strong>：这是二级评论这是二级评论这是二级评论这是二级评论</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+    ;( function( $ ) {
+        $( '.swipebox' ).swipebox();
+    } )( jQuery );
+</script>
+</html>

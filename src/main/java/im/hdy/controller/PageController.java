@@ -94,7 +94,7 @@ public class PageController {
     public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         //用于判断是否是自己点赞的
-        List<Page> best = pageService.findBest(0);
+        List<Page> best = pageService.findBest(currentPage);
         for (int i = 0; i < best.size(); i++) {
             Page page = best.get(i);
             Like likes =
@@ -112,7 +112,9 @@ public class PageController {
     @ResponseBody
     public String getMemoirs(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
-        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(0);
+        log.info("纪念册获取到的页码是;" + currentPage);
+        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(currentPage);
+        log.info("纪念册返回的数据时:" + pagesByMemoirs);
         //用于判断是否是自己点赞的
         for (int i = 0; i < pagesByMemoirs.size(); i++) {
             Page page = pagesByMemoirs.get(i);

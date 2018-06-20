@@ -119,7 +119,7 @@ public class IndexController {
         List<Page> pagesByUserId = pageService.findPagesByUserId(u.get_id(), page);
 //        return JSON.serialize(pagesByUserId);
 //        session.setAttribute("pages", pagesByUserId);
-        maps.put("pages",pagesByUserId);
+        maps.put("pages", pagesByUserId);
         logger.info("获取到的我发布的文章:" + pagesByUserId);
         return "user/me";
     }
@@ -131,6 +131,17 @@ public class IndexController {
 //        session.setAttribute(Constants.CURRENTUSER, one);
 
         return "user/me-message";
+    }
+
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail(@RequestParam(required = false) String pageId, Map<String, Object> maps) {
+        Page one = pageService.findOne(pageId);
+        if (one != null) {
+            maps.put("page", one);
+            return "user/details";
+        } else {
+            return "error";
+        }
     }
 
 }

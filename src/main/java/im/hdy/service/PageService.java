@@ -100,7 +100,7 @@ public class PageService {
 
 
     public List<Page> findPagesByMemoirs(int currentPage) {
-        List<Page> pages = template.find(new Query(Criteria.where("isInRecall").is(true)).with(new Sort(Sort.Direction.DESC, "enterInRecallDate")), Page.class);
+        List<Page> pages = template.find(new Query(Criteria.where("isInRecall").is(true)).with(new Sort(Sort.Direction.DESC, "enterInRecallDate")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
         return pages;
     }
 
