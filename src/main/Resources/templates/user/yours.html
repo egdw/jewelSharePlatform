@@ -63,7 +63,7 @@
                 <!--<font></font>-->
             <!--</div>-->
         <!--</div>-->
-        <div class="photo" th:if="${page.imgUrl != null && (page.hidden == null || page.hidden == false)}">
+        <div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0 && (page.hidden == null || page.hidden == false)}">
             <!--<img/>-->
             <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
             <!--<img th:src="'/jewel/upload/'+${page.imgUrl[0]}" th:each="img:${page.imgUrl}">-->
@@ -111,7 +111,7 @@
             <div class="name" th:text="${page.user.name}">用户名</div>
             <div class="dot"></div>
         </div>
-        <div class="photo" th:if="${page.imgUrl != null}">
+        <div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0}">
             <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
             <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
         </div>
@@ -136,7 +136,7 @@
             <div class="name">匿名</div>
             <div class="dot"></div>
         </div>
-        <div class="photo" th:if="${page.imgUrl != null}">
+        <div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0} ">
             <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
             <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
         </div>

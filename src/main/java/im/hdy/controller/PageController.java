@@ -1,6 +1,7 @@
 package im.hdy.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.oracle.tools.packager.Log;
 import im.hdy.constant.Constants;
 import im.hdy.impl.UserInterface;
 import im.hdy.model.Like;
@@ -147,7 +148,7 @@ public class PageController {
         Page addPage1 = pageService.addPage(page);
         RedisUtils.setAndExpire(Constants.PAGE_SEND_TIME_NAME, " ", Constants.PAGE_SEND_TIME);
         log.info("添加的内容" + addPage1);
-        return "redirect:/user/me";
+        return "redirect:/";
 //        return Constants.successMessage;
     }
 
@@ -165,7 +166,11 @@ public class PageController {
         String uuid_fileName = UUID.randomUUID().toString();
 
         File saveFile = new File(Constants.fileSaveUrl, uuid_fileName + ".jpg");
-
+//        try {
+//            file.transferTo(saveFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         try {
             //保存压缩图
             Thumbnails.of(file.getInputStream()).scale(1f)
