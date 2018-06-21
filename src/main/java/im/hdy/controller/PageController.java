@@ -82,7 +82,7 @@ public class PageController {
                 boolean contains = users.contains(u.get_id());
                 log.info("是否点赞过?" + contains);
                 page.setUserLiked(contains);
-                pagesRandom.set(i,page);
+                pagesRandom.set(i, page);
             }
 //            User user = page.getUser();
 //            if (user == null) {
@@ -108,7 +108,7 @@ public class PageController {
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 page.setUserLiked(contains);
-                best.set(i,page);
+                best.set(i, page);
             }
         }
         return JSON.toJSONString(best);
@@ -132,7 +132,7 @@ public class PageController {
                 boolean contains = users.contains(u.get_id());
                 log.info("是否点赞过?" + contains);
                 page.setUserLiked(contains);
-                pagesByMemoirs.set(i,page);
+                pagesByMemoirs.set(i, page);
             }
         }
         return JSON.toJSONString(pagesByMemoirs);

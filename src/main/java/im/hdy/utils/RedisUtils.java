@@ -35,4 +35,11 @@ public class RedisUtils {
         redis.close();
         return exist;
     }
+
+    public static boolean remove(String key){
+        RedisUtilHelp redis = new RedisUtilHelp(pool.getResource(), key);
+        redis.remove();
+        redis.close();
+        return true;
+    }
 }

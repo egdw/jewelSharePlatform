@@ -54,7 +54,7 @@ public class WeixinUtil {
             if (json != null) {
                 //要注意，access_token需要缓存
                 access_token = json.getString("access_token");
-                RedisUtils.setAndExpire("access_token", access_token, 60 * 1000 * 7);
+                RedisUtils.setAndExpire("access_token", access_token, 60 * 7);
             }
         }
         url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
