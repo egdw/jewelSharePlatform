@@ -62,19 +62,19 @@ public class WeChatController {
             logger.info("微信-签名校验通过");
             //如果检验成功原样返回echostr，微信服务器接收到此输出，才会确认检验完成。
             logger.info("回复给微信的 echostr 字符串:{}", echostr);
-            Signature sign = new Signature();
-            sign.setEchostr(echostr);
-            sign.setNonce(nonce);
-            sign.setSignature(signature);
-            sign.setTimestamp(timestamp);
-            List<Signature> all =
-                    signatureInterface.findAll();
-            if (all != null && all.size() > 0) {
-                Signature signOld = all.get(0);
-                String id = signOld.get_id();
-                sign.set_id(id);
-            }
-            signatureInterface.save(sign);
+//            Signature sign = new Signature();
+//            sign.setEchostr(echostr);
+//            sign.setNonce(nonce);
+//            sign.setSignature(signature);
+//            sign.setTimestamp(timestamp);
+//            List<Signature> all =
+//                    signatureInterface.findAll();
+//            if (all != null && all.size() > 0) {
+//                Signature signOld = all.get(0);
+//                String id = signOld.get_id();
+//                sign.set_id(id);
+//            }
+//            signatureInterface.save(sign);
             return echostr;
         } else {
             logger.error("微信-签名校验失败");

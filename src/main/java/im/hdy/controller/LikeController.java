@@ -29,7 +29,7 @@ public class LikeController {
     @RequestMapping(method = RequestMethod.POST)
     public String addOrCancle(@RequestParam(value = "pageId") String pageId, HttpSession session) {
         //根据Pageid进行修改增加或取消
-        session.setAttribute(Constants.CURRENTUSER, userService.findOne("5b1f80dc25acdce3869c8c49"));
+//        session.setAttribute(Constants.CURRENTUSER, userService.findOne("5b1f80dc25acdce3869c8c49"));
         Page one = pageService.getOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Like likes = one.getLikes();
@@ -41,7 +41,7 @@ public class LikeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String isLiked(String pageId, HttpSession session) {
-        session.setAttribute(Constants.CURRENTUSER, userService.findOne("5b1f80dc25acdce3869c8c49"));
+//        session.setAttribute(Constants.CURRENTUSER, userService.findOne("5b1f80dc25acdce3869c8c49"));
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Page page = pageService.getOne(pageId);
         boolean contains = page.getLikes().getUsers().contains(u.get_id());

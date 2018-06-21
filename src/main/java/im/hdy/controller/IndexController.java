@@ -55,7 +55,7 @@ public class IndexController {
             LinkedList<String> users = likes.getUsers();
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
-                page.setLiked(contains);
+                page.setUserLiked(contains);
             }
             User user = page.getUser();
             if (user == null) {
@@ -82,7 +82,7 @@ public class IndexController {
             LinkedList<String> users = likes.getUsers();
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
-                page.setLiked(contains);
+                page.setUserLiked(contains);
             }
         }
         List<Banner> all = bannerService.findAll();
@@ -104,7 +104,7 @@ public class IndexController {
             LinkedList<String> users = likes.getUsers();
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
-                page.setLiked(contains);
+                page.setUserLiked(contains);
             }
         }
         List<Banner> all = bannerService.findAll();
@@ -155,7 +155,7 @@ public class IndexController {
                 if (users != null && users.size() > 0) {
                     boolean contains = users.contains(u.get_id());
                     if (contains) {
-                        one.setLiked(true);
+                        one.setUserLiked(true);
                     }
                 }
             }

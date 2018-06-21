@@ -35,7 +35,7 @@ public class HttpsUtils {
             // 从上述对象中的到SSLSocketFactory
             SSLSocketFactory ssf = sslContext.getSocketFactory();
 
-            System.out.println(path);
+//            System.out.println(path);
 
             URL url = new URL(path);
             conn = (HttpsURLConnection) url.openConnection();

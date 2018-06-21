@@ -54,7 +54,7 @@ public class PageController {
 //        session.setAttribute(Constants.CURRENTUSER, userInterface.findOne("5b1f80dc25acdce3869c8c49"));
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         boolean contains = one.getLikes().getUsers().contains(u.get_id());
-        one.setLiked(contains);
+        one.setUserLiked(contains);
         return JSON.toJSONString(one);
     }
 
@@ -65,8 +65,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-        session.setAttribute(Constants.CURRENTUSER, one);
+//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+//        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -81,13 +81,14 @@ public class PageController {
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 log.info("是否点赞过?" + contains);
-                page.setLiked(contains);
+                page.setUserLiked(contains);
+                pagesRandom.set(i,page);
             }
-            User user = page.getUser();
-            if (user == null) {
-                pageService.delete(page.get_id());
-                pagesRandom.remove(i);
-            }
+//            User user = page.getUser();
+//            if (user == null) {
+//                pageService.delete(page.get_id());
+//                pagesRandom.remove(i);
+//            }
         }
         return JSON.toJSONString(pagesRandom);
     }
@@ -106,7 +107,8 @@ public class PageController {
             LinkedList<String> users = likes.getUsers();
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
-                page.setLiked(contains);
+                page.setUserLiked(contains);
+                best.set(i,page);
             }
         }
         return JSON.toJSONString(best);
@@ -129,7 +131,8 @@ public class PageController {
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
                 log.info("是否点赞过?" + contains);
-                page.setLiked(contains);
+                page.setUserLiked(contains);
+                pagesByMemoirs.set(i,page);
             }
         }
         return JSON.toJSONString(pagesByMemoirs);
