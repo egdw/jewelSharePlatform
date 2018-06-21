@@ -1,10 +1,11 @@
 package im.hdy.controller;
 
-import com.mongodb.util.JSON;
 import im.hdy.constant.Constants;
+import im.hdy.model.Banner;
 import im.hdy.model.Like;
 import im.hdy.model.Page;
 import im.hdy.model.User;
+import im.hdy.service.BannerService;
 import im.hdy.service.PageService;
 import im.hdy.service.UserService;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BannerService bannerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     //获取首页
@@ -59,6 +63,8 @@ public class IndexController {
             }
         }
 
+        List<Banner> all = bannerService.findAll();
+        map.put("banners", all);
         map.put("pages", pagesRandom);
         return "user/yours";
     }
@@ -78,6 +84,8 @@ public class IndexController {
                 page.setLiked(contains);
             }
         }
+        List<Banner> all = bannerService.findAll();
+        map.put("banners", all);
         map.put("pages", pagesByMemoirs);
         return "user/memorize";
     }
@@ -98,6 +106,8 @@ public class IndexController {
                 page.setLiked(contains);
             }
         }
+        List<Banner> all = bannerService.findAll();
+        map.put("banners", all);
         logger.info("最佳文章获取" + best);
         map.put("pages", best);
         return "user/best";

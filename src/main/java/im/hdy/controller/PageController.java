@@ -50,6 +50,8 @@ public class PageController {
     @ResponseBody
     public String get(String pageId, HttpSession session) {
         Page one = pageService.findOne(pageId);
+        //临时添加请求接口
+        session.setAttribute(Constants.CURRENTUSER, userInterface.findOne("5b1f80dc25acdce3869c8c49"));
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         boolean contains = one.getLikes().getUsers().contains(u.get_id());
         one.setLiked(contains);
@@ -75,8 +77,10 @@ public class PageController {
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();
+            log.info("点赞信息" + users);
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
+                log.info("是否点赞过?" + contains);
                 page.setLiked(contains);
             }
             User user = page.getUser();
@@ -121,8 +125,10 @@ public class PageController {
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();
+            log.info("点赞信息" + users);
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
+                log.info("是否点赞过?" + contains);
                 page.setLiked(contains);
             }
         }

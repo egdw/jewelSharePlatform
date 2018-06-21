@@ -5,17 +5,32 @@
     <title>你们</title>
     <link rel="stylesheet" type="text/css" th:href="@{user/css/yours.css}">
 </head>
-<body>
-<div id="main">
+<body id="mainBody"  onload="clickhandle(2)">
+<div class="head">
+    <div class="imgchangediv">
+        <div class="swiper-container" style="width: 100%;height: 100%">
+            <div class="swiper-wrapper">
 
-    <div id="head">
-        <img th:src="@{user/img/logo.png}">
-        <div id="selecthead">
-            <div id="left" class="smallhead">回忆录</div>
-            <div id="mid" class="smallhead">我想对你说</div>
-            <div id="right" class="smallhead">周一最佳</div>
+                <div class="swiper-slide" th:each="banner:${banners}"><a
+                        th:href="${'/jewel/detail?pageId='+banner.pointUrl}"><img class="swiper-slide"
+                                                                                  th:src="'/jewel/upload/'+${banner.imgUrl}"/></a>
+                </div>
+                <!--<div class="swiper-slide">Slide 3</div>-->
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination" style="color: #2f2f2f "></div>
+
+            <!-- 如果需要导航按钮 -->
+            <!--<div class="swiper-button-prev"></div>-->
+            <!--<div class="swiper-button-next"></div>-->
+
+            <!-- 如果需要滚动条 -->
+            <!--<div class="swiper-scrollbar"></div>-->
         </div>
+
     </div>
+
+
     <ul class="navigation" id="nav">
         <li class="memoir">
             <a href="/jewel/memorize"><img th:src="@{user/yours/img/memoir.png}"><span>回忆录</span></a>
@@ -44,129 +59,180 @@
     </ul>
 </div>
 <!--<h1 th:text="${pages}">这是测试内容</h1>-->
-<ul class="contents" th:each="page:${pages}">
+<!--<ul class="contents" th:each="page:${pages}">-->
+<ul class="contents">
 
-    <li class="women" th:if="${page.user.boy == false}">
-        <div class="c-head">
-            <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
-            <img th:src="${page.user.imgUrl}">
-            <div class="name" th:text="${page.user.name}">用户名</div>
-            <div class="dot"></div>
-        </div>
-        <!--<div class="imgchangediv">-->
-        <!--<img th:src="@{user/yours/img/img1.png}" style="display: block;"/>-->
-        <!--<img th:src="@{user/yours/img/img2.png}" style="display: none;"/>-->
-        <!--<img th:src="@{user/yours/img/img3.png}" style="display: none;"/>-->
-        <!--<div class="imgyuan">-->
-        <!--<font></font>-->
-        <!--<font></font>-->
-        <!--<font></font>-->
-        <!--</div>-->
-        <!--</div>-->
-        <div class="photo"
-             th:if="${page.imgUrl != null && page.imgUrl.size()>0 && (page.hidden == null || page.hidden == false)}">
-            <!--<img/>-->
-            <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
-            <!--<img th:src="'/jewel/upload/'+${page.imgUrl[0]}" th:each="img:${page.imgUrl}">-->
-            <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
-        </div>
-        <div class="c-text">
-            <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"
-               th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
-        </div>
-        <div class="c-foot">
-            <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"
-                  th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
-            <!--<p th:text="${page.liked}"></p>-->
-            <a href="#" onclick="" th:if="${page.liked == null || page.liked == false}"><img
-                    th:src="@{user/yours/img/like.png}"></a>
-            <a href="#" onclick="" th:if="${page.liked != null && page.liked == true}"><img
-                    th:src="@{user/yours/img/s-like.png}"></a>
-        </div>
-    </li>
-    <!--<li class="women">-->
+    <!--<li class="women" th:if="${page.user.boy == false}">-->
     <!--<div class="c-head">-->
-    <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
-    <!--<div class="name">用户名</div>-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/anonymous-head.png}">&ndash;&gt;-->
+    <!--<img th:src="${page.user.imgUrl}">-->
+    <!--<div class="name" th:text="${page.user.name}">用户名</div>-->
     <!--<div class="dot"></div>-->
     <!--</div>-->
-    <!--<div class="photo">-->
-    <!--<img src="">-->
-    <!--<div class="number">1/9</div>-->
+    <!--&lt;!&ndash;<div class="imgchangediv">&ndash;&gt;-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/img1.png}" style="display: block;"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/img2.png}" style="display: none;"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/img3.png}" style="display: none;"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="imgyuan">&ndash;&gt;-->
+    <!--&lt;!&ndash;<font></font>&ndash;&gt;-->
+    <!--&lt;!&ndash;<font></font>&ndash;&gt;-->
+    <!--&lt;!&ndash;<font></font>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div class="photo"-->
+    <!--th:if="${page.imgUrl != null && page.imgUrl.size()>0 && (page.hidden == null || page.hidden == false)}">-->
+    <!--&lt;!&ndash;<img/>&ndash;&gt;-->
+    <!--<img th:src="'/jewel/upload/'+${page.imgUrl[0]}">-->
+    <!--&lt;!&ndash;<img th:src="'/jewel/upload/'+${page.imgUrl[0]}" th:each="img:${page.imgUrl}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>&ndash;&gt;-->
     <!--</div>-->
     <!--<div class="c-text">-->
-    <!--<p>文字文字文字纯文字排版背景灰色字体变细匿名用户</p>-->
+    <!--<a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"-->
+    <!--th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>-->
     <!--</div>-->
     <!--<div class="c-foot">-->
-    <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
-    <!--<a href=""><img th:src="@{user/yours/img/like.png}"></a>-->
-    <!--<a href=""><img th:src="@{user/yours/img/comment.png}"></a>-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"-->
+    <!--th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
     <!--<a href=""><img th:src="@{user/yours/img/forward.png}"></a>-->
+    <!--<a href=""><img th:src="@{user/yours/img/comment.png}"></a>-->
+    <!--&lt;!&ndash;<p th:text="${page.liked}"></p>&ndash;&gt;-->
+    <!--<a href="#" onclick="" th:if="${page.liked == null || page.liked == false}"><img-->
+    <!--th:src="@{user/yours/img/like.png}"></a>-->
+    <!--<a href="#" onclick="" th:if="${page.liked != null && page.liked == true}"><img-->
+    <!--th:src="@{user/yours/img/s-like.png}"></a>-->
     <!--</div>-->
     <!--</li>-->
-    <li class="men" th:if="${page.user.boy == true && (page.hidden == null || page.hidden == false)}">
-        <div class="c-head">
-            <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
-            <img th:src="${page.user.imgUrl}">
-            <div class="name" th:text="${page.user.name}">用户名</div>
-            <div class="dot"></div>
-        </div>
-        <div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0}">
-            <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
-            <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
-        </div>
-        <div class="c-text">
-            <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"
-               th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
-        </div>
-        <div class="c-foot">
-            <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"
-                  th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
-            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
-        </div>
-    </li>
+    <!--&lt;!&ndash;<li class="women">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="c-head">&ndash;&gt;-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/anonymous-head.png}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="name">用户名</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="dot"></div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="photo">&ndash;&gt;-->
+    <!--&lt;!&ndash;<img src="">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="number">1/9</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="c-text">&ndash;&gt;-->
+    <!--&lt;!&ndash;<p>文字文字文字纯文字排版背景灰色字体变细匿名用户</p>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="c-foot">&ndash;&gt;-->
+    <!--&lt;!&ndash;<span>785赞&nbsp;·&nbsp;182 评论</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a href=""><img th:src="@{user/yours/img/like.png}"></a>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a href=""><img th:src="@{user/yours/img/comment.png}"></a>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a href=""><img th:src="@{user/yours/img/forward.png}"></a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--<li class="men" th:if="${page.user.boy == true && (page.hidden == null || page.hidden == false)}">-->
+    <!--<div class="c-head">-->
+    <!--&lt;!&ndash;<img th:src="@{user/yours/img/anonymous-head.png}">&ndash;&gt;-->
+    <!--<img th:src="${page.user.imgUrl}">-->
+    <!--<div class="name" th:text="${page.user.name}">用户名</div>-->
+    <!--<div class="dot"></div>-->
+    <!--</div>-->
+    <!--<div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0}">-->
+    <!--<img th:src="'/jewel/upload/'+${page.imgUrl[0]}">-->
+    <!--&lt;!&ndash;<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="c-text">-->
+    <!--<a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"-->
+    <!--th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>-->
+    <!--</div>-->
+    <!--<div class="c-foot">-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"-->
+    <!--th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--&lt;!&ndash;<span>785赞&nbsp;·&nbsp;182 评论</span>&ndash;&gt;-->
+    <!--<a href=""><img th:src="@{user/yours/img/forward.png}"></a>-->
+    <!--<a href=""><img th:src="@{user/yours/img/comment.png}"></a>-->
+    <!--<a href=""><img th:src="@{user/yours/img/like.png}"></a>-->
+    <!--</div>-->
+    <!--</li>-->
 
-    <li class="anonymous" th:if="${page.hidden != null && page.hidden == true}">
-        <div class="c-head">
-            <img th:src="@{user/yours/img/anonymous-head.png}">
-            <div class="name">匿名</div>
-            <div class="dot"></div>
-        </div>
-        <div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0} ">
-            <img th:src="'/jewel/upload/'+${page.imgUrl[0]}">
-            <!--<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>-->
-        </div>
-        <div class="c-text">
-            <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"
-               th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
-        </div>
-        <div class="c-foot">
-            <span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"
-                  th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>
-            <!--<span>785赞&nbsp;·&nbsp;182 评论</span>-->
-            <a href=""><img th:src="@{user/yours/img/forward.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/comment.png}"></a>
-            <a href=""><img th:src="@{user/yours/img/like.png}"></a>
-        </div>
-    </li>
+    <!--<li class="anonymous" th:if="${page.hidden != null && page.hidden == true}">-->
+    <!--<div class="c-head">-->
+    <!--<img th:src="@{user/yours/img/anonymous-head.png}">-->
+    <!--<div class="name">匿名</div>-->
+    <!--<div class="dot"></div>-->
+    <!--</div>-->
+    <!--<div class="photo" th:if="${page.imgUrl != null && page.imgUrl.size()>0} ">-->
+    <!--<img th:src="'/jewel/upload/'+${page.imgUrl[0]}">-->
+    <!--&lt;!&ndash;<div class="number" th:text="'1/'+${page.imgUrl.size()}">1/9</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="c-text">-->
+    <!--<a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}"-->
+    <!--th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>-->
+    <!--</div>-->
+    <!--<div class="c-foot">-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+page.talks.size()+'评论'}"-->
+    <!--th:if="${page.talks != null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${page.likes.length+'赞'+'  '+'0评论'}" th:if="${page.talks == null && page.likes !=null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+page.talks.size()+'评论'}" th:if="${page.talks != null && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--<span th:text="${'0赞'+'  '+'0评论'}" th:if="${page.talks == null  && page.likes ==null}">785赞&nbsp;·&nbsp;182 评论</span>-->
+    <!--&lt;!&ndash;<span>785赞&nbsp;·&nbsp;182 评论</span>&ndash;&gt;-->
+    <!--<a href=""><img th:src="@{user/yours/img/forward.png}"></a>-->
+    <!--<a href=""><img th:src="@{user/yours/img/comment.png}"></a>-->
+    <a href=""><img th:src="@{user/yours/img/like.png}" alt="7213123hdhasdasdi21213"></a>
+    <!--</div>-->
+    <!--</li>-->
 </ul>
 </body>
 
+<style>
+    .swiper-pagination-bullet {
+        background: #6f6f6f;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #2f2f2f;
+    }
+</style>
 <script>
+    var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+<script>
+    function liked(obj) {
+        console.log("点击了." + obj)
+        console.log(obj.text())
+    }
+
+    function findAllBanner() {
+        $.ajax({
+            url: '/jewel/banner/findAll',
+            type: 'GET', //GET
+            async: true,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                add(data)
+
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        findPage()
+        // findAllBanner()
+    });
     $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
@@ -178,31 +244,53 @@
         // console.log("scrollTop + windowHeight:"+(scrollTop + windowHeight))
         if (scrollTop + windowHeight >= (scrollHeight - 100)) {
             console.log("到达了底部..")
-            $.ajax({
-                url: '/jewel/page/index',
-                type: 'GET', //GET
-                async: true,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                success: function (data, textStatus, jqXHR) {
-                    // var /L= scrollTop + windowHeight
-                    console.log(data)
-                    add(data)
-                    // $('html, body').animate({
-                    //     scrollTop: L
-                    // }, 100);
-                    console.log(textStatus)
-                    console.log(jqXHR)
-                }
-            })
+            findPage();
+            // $.ajax({
+            //     url: '/jewel/page/index',
+            //     type: 'GET', //GET
+            //     async: true,    //或false,是否异步
+            //     timeout: 5000,    //超时时间
+            //     dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            //     success: function (data, textStatus, jqXHR) {
+            //         // var /L= scrollTop + windowHeight
+            //         console.log(data)
+            //         add(data)
+            //         // $('html, body').animate({
+            //         //     scrollTop: L
+            //         // }, 100);
+            //         console.log(textStatus)
+            //         console.log(jqXHR)
+            //     }
+            // })
         }
     });
+
+    function findPage() {
+        $.ajax({
+            url: '/jewel/page/index',
+            type: 'GET', //GET
+            async: true,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                // var /L= scrollTop + windowHeight
+                console.log(data)
+                add(data)
+                // $('html, body').animate({
+                //     scrollTop: L
+                // }, 100);
+                console.log(textStatus)
+                console.log(jqXHR)
+            }
+        })
+    }
 
     function add(data) {
         //是不是男性
         var isBoy = data[0].user.boy;
         //是否是隐藏
         var isHidden = data[0].hidden;
+        // data[0]
         console.log(isBoy)
         console.log(isHidden)
         $.each(data, function (index, content) {
@@ -223,9 +311,9 @@
                         "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img th:src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                         "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" +
-                        "<a href=''><img src='user/yours/img/forward.png'></a>" +
+                        "<a href='#'><img src='user/yours/img/forward.png'></a>" +
                         "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                        "<a href=''><img src='user/yours/img/like.png'></a>"
+                        "<a href='javascript:void(0)' onclick='liked(this)'><img alt='like' src='user/yours/img/like.png'></a>"
 
 
                         + "</div>" +
@@ -238,7 +326,7 @@
                         "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" +
                         "<a href=''><img src='user/yours/img/forward.png'></a>" +
                         "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                        "<a href=''><img src='user/yours/img/like.png'></a>" +
+                        "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" +
                         "</div>" +
                         "</li></ul>");
                 }
@@ -252,7 +340,7 @@
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                             "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                            "<a href=''><img src='user/yours/img/like.png'></a>" + "</div>" +
+                            "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
 
                         // <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}" th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
@@ -264,7 +352,7 @@
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                             "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                            "<a href=''><img src='user/yours/img/like.png'></a>" + "</div>" +
+                            "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     }
                 }
@@ -278,7 +366,7 @@
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                             "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                            "<a href=''><img src='user/yours/img/like.png'></a>" + "</div>" +
+                            "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     } else {
                         $("#mainBody").append("<ul class=\"contents\" > <li class='women'>" +
@@ -287,7 +375,7 @@
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                             "<a href=''><img src='user/yours/img/comment.png'></a>" +
-                            "<a href=''><img src='user/yours/img/like.png'></a>" + "</div>" +
+                            "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     }
                 }
@@ -296,4 +384,5 @@
 
     }
 </script>
+
 </html>
