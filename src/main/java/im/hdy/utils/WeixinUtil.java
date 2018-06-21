@@ -30,7 +30,6 @@ public class WeixinUtil {
      * 开发人员：souvc  </br>
      * 创建时间：2016-1-5  </br>
      *
-     * @param request
      * @return 说明返回值含义
      */
     public static Map<String, Object> getWxConfig(String requestUrl) {
@@ -44,8 +43,8 @@ public class WeixinUtil {
         String jsapi_ticket = "";
         String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
         String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret=" + secret;
         access_token = RedisUtils.get("access_token");
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret=" + secret;
         JSONObject json = null;
         if (access_token != null && !access_token.isEmpty()) {
 

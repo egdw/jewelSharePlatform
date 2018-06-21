@@ -66,7 +66,10 @@
         <span>785赞&nbsp;·&nbsp;182 评论</span>
         <a href="javascript:void(0)" onclick="Toast('请点击右上角按钮转发！',2000)"><img th:src="@{/user/detail/img/forward.png}"></a>
         <a href="javascript:void(0)" onclick="comment()"><img th:src="@{/user/detail/img/comment.png}"></a>
-        <a href="javascript:void(0)" onclick="like()"><img th:src="@{/user/detail/img/like.png}"></a>
+        <a href="javascript:void(0)" onclick="like()" th:if="${page.liked== false}"><img
+                th:src="@{/user/detail/img/like.png}"></a>
+        <a href="javascript:void(0)" onclick="like()" th:if="${page.liked == true}"><img
+                th:src="@{/user/detail/img/s-like.png}"></a>
     </div>
     <form action="" class="pinlun">
         <textarea cols="10" rows="20" class="c-textarea"></textarea>
@@ -81,6 +84,8 @@
         </li>
     </ul>
 </div>
+<img th:src="@{/user/detail/img/like.png}" style="display: none">
+<img th:src="@{/user/detail/img/s-like.png}" style="display: none">
 </body>
 <script type="text/javascript">
     ;(function ($) {
@@ -105,12 +110,8 @@
             success: function (data, textStatus, jqXHR) {
                 console.log(data)
                 wx.config({
-                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     appId: data.appId, // 必填，公众号的唯一标识
-                    // timestamp: '1529579112', // 必填，生成签名的时间戳
-                    // nonceStr: 'd159fe94-d6c0-46b7-bbf5-05b0c98c71d5', // 必填，生成签名的随机串
-                    // signature: 'd806a11aa6e6a30f4b2e5450e80566d2f781fc3d',// 必填，签名，见附录1
-                    // appId: 'wx04d5544324fa686e', // 必填，公众号的唯一标识
                     timestamp: data.timestamp, // 必填，生成签名的时间戳
                     nonceStr: data.nonceStr, // 必填，生成签名的随机串
                     signature: data.signature,// 必填，签名，见附录1

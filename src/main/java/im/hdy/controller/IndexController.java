@@ -8,6 +8,7 @@ import im.hdy.model.User;
 import im.hdy.service.BannerService;
 import im.hdy.service.PageService;
 import im.hdy.service.UserService;
+import im.hdy.utils.HttpsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,9 +145,20 @@ public class IndexController {
     }
 
     @RequestMapping(value = "detail", method = RequestMethod.GET)
-    public String detail(@RequestParam(required = false) String pageId, Map<String, Object> maps) {
+    public String detail(@RequestParam(required = false) String pageId, Map<String, Object> maps, HttpSession session) {
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Page one = pageService.findOne(pageId);
         if (one != null) {
+            Like like = one.getLikes();
+            if (like != null) {
+                LinkedList<String> users = like.getUsers();
+                if (users != null && users.size() > 0) {
+                    boolean contains = users.contains(u.get_id());
+                    if (contains) {
+                        one.setLiked(true);
+                    }
+                }
+            }
             maps.put("page", one);
             return "user/details";
         } else {

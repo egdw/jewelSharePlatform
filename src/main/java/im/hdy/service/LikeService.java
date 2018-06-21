@@ -1,11 +1,9 @@
 package im.hdy.service;
 
-import com.mongodb.BasicDBObject;
 import im.hdy.impl.LikeInterface;
 import im.hdy.model.Like;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -45,18 +43,22 @@ public class LikeService {
      * @param like
      * @param userId
      */
-    public void addOrDelNewLikes(String pageId, Like like, String userId) {
+    public boolean addOrDelNewLikes(String pageId, Like like, String userId) {
         LinkedList<String> users = like.getUsers();
         int indexOf = users.indexOf(userId);
         if (indexOf != -1) {
             //说明曾经点赞
             users.remove(userId);
+            Like save = likeInterface.save(like);
+            pageService.updateLikesNum(pageId, save);
+            return false;
         } else {
             users.add(userId);
+            Like save = likeInterface.save(like);
+            pageService.updateLikesNum(pageId, save);
+            return true;
         }
         //添加或删除点赞
-        Like save = likeInterface.save(like);
-        pageService.updateLikesNum(pageId, save);
 
     }
 }

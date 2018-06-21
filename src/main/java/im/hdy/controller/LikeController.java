@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping(value = "like")
@@ -32,8 +33,10 @@ public class LikeController {
         Page one = pageService.getOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Like likes = one.getLikes();
-        likeService.addOrDelNewLikes(pageId, likes, u.get_id());
-        return Constants.successMessage;
+        boolean b = likeService.addOrDelNewLikes(pageId, likes, u.get_id());
+        HashMap<String, Boolean> map = new HashMap<>();
+        map.put("liked", b);
+        return JSON.toJSONString(map);
     }
 
     @RequestMapping(method = RequestMethod.GET)
