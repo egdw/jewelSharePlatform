@@ -5,7 +5,7 @@ $('body').onload = function(){
 //点赞
 function like(id){
 	$.ajax({
-		url: 'http://test2.hongdeyan.cn/jewel/like',
+		url: '/jewel/like',
 		type: 'GET',
         async: true,    //或false,是否异步
         timeout: 5000,    //超时时间
@@ -29,12 +29,12 @@ function like(id){
 	else
 		icon.src='img/like.png';
 	$.ajax({
-		url: 'http://test2.hongdeyan.cn/jewel/like',
+		url: '/jewel/like',
 		type: 'POST',
         async: true,    //或false,是否异步
         timeout: 5000,    //超时时间
 		dataType: 'json',
-		data: {pageId: 'value1'},
+		data: {pageId: id},
 	})
 	.done(function() {
 		console.log("success");

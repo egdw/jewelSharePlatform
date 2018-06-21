@@ -32,4 +32,13 @@ public class Constants {
     //评论发送间隔
     public static final String TALK_SEND_TIME_NAME = "TALK_SEND_TIME_NAME";
     public static final int TALK_SEND_TIME = 60;
+
+
+    private static final String signature = null;
+    private static final String timestamp = null;
+    private static final String nonce = null;
+    private static final String echostr = null;
+
+    public static final String WX_APPID = "wx04d5544324fa686e";
+    public static final String WX_APPSECRET = "ac7197726c8715aec46729aa0b5b64a6";
 }

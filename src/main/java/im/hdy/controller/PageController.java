@@ -51,7 +51,7 @@ public class PageController {
     public String get(String pageId, HttpSession session) {
         Page one = pageService.findOne(pageId);
         //临时添加请求接口
-        session.setAttribute(Constants.CURRENTUSER, userInterface.findOne("5b1f80dc25acdce3869c8c49"));
+//        session.setAttribute(Constants.CURRENTUSER, userInterface.findOne("5b1f80dc25acdce3869c8c49"));
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         boolean contains = one.getLikes().getUsers().contains(u.get_id());
         one.setLiked(contains);

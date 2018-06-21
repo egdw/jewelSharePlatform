@@ -48,8 +48,8 @@ public class RedirectController {
         // 2. 通过code换取网页授权access_token
         if (code != null || !(code.equals(""))) {
 
-            String APPID = WX_APPID;
-            String SECRET = WX_APPSECRET;
+            String APPID = Constants.WX_APPID;
+            String SECRET = Constants.WX_APPSECRET;
             String CODE = code;
             String WebAccessToken = "";
             String openId = "";

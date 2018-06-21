@@ -103,6 +103,58 @@
 
     $(document).ready(function () {
         findPage()
+        //
+        // $.ajax({
+        //     url: '/jewel/sign',
+        //     type: 'GET', //GET
+        //     async: true,    //或false,是否异步
+        //     timeout: 5000,    //超时时间
+        //     dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        //     success: function (data, textStatus, jqXHR) {
+        //         console.log(data)
+        //         wx.config({
+        //             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //             appId: 'wx04d5544324fa686e', // 必填，公众号的唯一标识
+        //             timestamp: data.timestamp, // 必填，生成签名的时间戳
+        //             nonceStr: data.nonce, // 必填，生成签名的随机串
+        //             signature: data.signature,// 必填，签名，见附录1
+        //             jsApiList: [
+        //                 'checkJsApi',
+        //                 'onMenuShareTimeline',
+        //                 'onMenuShareAppMessage',
+        //                 'onMenuShareQQ',
+        //                 'onMenuShareWeibo',
+        //                 'chooseWXPay'
+        //             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        //         });
+        //
+        //         // 分享给朋友、QQ、微博
+        //         var shareData = {
+        //             "imgUrl": '',
+        //             "title": '测试分析',
+        //             "desc": '测试描述',
+        //             'link': 'http://www.baidu.com'
+        //         };
+        //         // 分享到朋友圈
+        //         var shareToTimeline = {
+        //             "imgUrl": '',
+        //             "title": '测试分析',
+        //             'link': '测试描述',
+        //             "desc": 'http://www.baidu.com'
+        //         }
+        //
+        //         wx.ready(function() {
+        //             wx.onMenuShareTimeline(shareToTimeline);
+        //             wx.onMenuShareAppMessage(shareData);
+        //             wx.onMenuShareQQ(shareData);
+        //             wx.onMenuShareQZone(shareData);
+        //
+        //             wx.error(function(res) {
+        //                 alert(res.errMsg);
+        //             });
+        //         });
+        //     }
+        // })
     });
     $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();
@@ -158,8 +210,8 @@
                         "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                         "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" +
-                        "<a href='#'><img src='user/yours/img/forward.png'></a>" +
-                        "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                        "<a href=\"javascript:void(0)\" onclick=\"Toast('请点击右上角按钮转发！',2000)\"><img src='user/yours/img/forward.png'></a>" +
+                        "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                         "<a href='javascript:void(0)' onclick='liked(this)'><img alt='like' src='user/yours/img/like.png'></a>"
 
 
@@ -171,8 +223,8 @@
                         "<div class='dot'></div>"
                         + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                         "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" +
-                        "<a href=''><img src='user/yours/img/forward.png'></a>" +
-                        "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                        "<a href=\"javascript:void(0)\" onclick=\"Toast('请点击右上角按钮转发！',2000)\"><img src='user/yours/img/forward.png'></a>" +
+                        "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                         "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" +
                         "</div>" +
                         "</li></ul>");
@@ -186,7 +238,7 @@
                             "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
-                            "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                            "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                             "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
 
@@ -198,7 +250,7 @@
                             "<div class='dot'></div>"
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
-                            "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                            "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                             "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     }
@@ -212,7 +264,7 @@
                             "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
-                            "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                            "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                             "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     } else {
@@ -221,7 +273,7 @@
                             "<div class='dot'></div>"
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                             "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
-                            "<a href=''><img src='user/yours/img/comment.png'></a>" +
+                            "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>" +
                             "<a href='javascript:void(0)' onclick='liked(this)'><img src='user/yours/img/like.png'></a>" + "</div>" +
                             "</li></ul>");
                     }
