@@ -1,5 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="user-scalable=no" />
+<!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<!-- 忽略页面中的数字识别为电话号码,email识别 -->
+<meta name="format-detection"content="telephone=no, email=no" />
+<!-- 启用360浏览器的极速模式(webkit) -->
+<meta name="renderer" content="webkit">
+<!-- 避免IE使用兼容模式 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+<meta name="HandheldFriendly" content="true">
+<!-- 微软的老式浏览器 -->
+<meta name="MobileOptimized" content="320">
+<!-- uc强制竖屏 -->
+<meta name="screen-orientation" content="portrait">
+<!-- QQ强制竖屏 -->
+<meta name="x5-orientation" content="portrait">
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">
+<!-- UC应用模式 -->
+<meta name="browsermode" content="application">
+<!-- QQ应用模式 -->
+<meta name="x5-page-mode" content="app">
+<!-- windows phone 点击无高光 -->
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{user/yours/css/yours.css}"/>
@@ -223,14 +251,18 @@
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                         "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img th:src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                        "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                        "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>"+
+                        "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                        "<a href=''><img src='user/yours/img/like.png'></a>"+"</div>" +
                         "</li></ul>");
                 } else {
                     $("#mainBody").append("<ul class=\"contents\" > <li class='anonymous'>" +
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                         "<div class='dot'></div>"
                         + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                        "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                        "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>"+
+                        "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                        "<a href=''><img src='user/yours/img/like.png'></a>"+"</div>" +
                         "</li></ul>");
                 }
             } else {
@@ -241,14 +273,18 @@
                             "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                             "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img th:src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" +"<a href=''><img src='user/yours/img/forward.png'></a>"+
+                            "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                            "<a href=''><img src='user/yours/img/like.png'></a>"+ "</div>" +
                             "</li></ul>");
                     } else {
                         $("#mainBody").append("<ul class=\"contents\" > <li class='men'>" +
                             "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                             "<div class='dot'></div>"
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>"+
+                            "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                            "<a href=''><img src='user/yours/img/like.png'></a>"+"</div>" +
                             "</li></ul>");
                     }
                 }
@@ -260,14 +296,18 @@
                             "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                             "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img th:src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
                             "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>"+
+                            "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                            "<a href=''><img src='user/yours/img/like.png'></a>"+"</div>" +
                             "</li></ul>");
                     } else {
                         $("#mainBody").append("<ul class=\"contents\" > <li class='women'>" +
                             "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>匿名</div>" +
                             "<div class='dot'></div>"
                             + "</div>" + "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='+" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>"  + "</div>" +
-                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "</div>" +
+                            "<div class='c-foot'>" + " <span>785赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>"+
+                            "<a href=''><img src='user/yours/img/comment.png'></a>"+
+                            "<a href=''><img src='user/yours/img/like.png'></a>"+"</div>" +
                             "</li></ul>");
                     }
                 }
