@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta name="viewport" content="user-scalable=no"/>
+<!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<!-- 忽略页面中的数字识别为电话号码,email识别 -->
+<meta name="format-detection" content="telephone=no, email=no"/>
+<!-- 启用360浏览器的极速模式(webkit) -->
+<meta name="renderer" content="webkit">
+<!-- 避免IE使用兼容模式 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+<meta name="HandheldFriendly" content="true">
+<!-- 微软的老式浏览器 -->
+<meta name="MobileOptimized" content="320">
+<!-- uc强制竖屏 -->
+<meta name="screen-orientation" content="portrait">
+<!-- QQ强制竖屏 -->
+<meta name="x5-orientation" content="portrait">
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">
+<!-- UC应用模式 -->
+<meta name="browsermode" content="application">
+<!-- QQ应用模式 -->
+<meta name="x5-page-mode" content="app">
+<!-- windows phone 点击无高光 -->
+<meta name="msapplication-tap-highlight" content="no">
 <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{user/yours/css/yours.css}"/>
+    <!--这里需要修改为cdn镜像.减少流量损耗-->
+    <script type="text/javascript" th:src="@{user/yours/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{user/yours/js/yours.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.bundle.js"></script>
     <title>你们</title>
-    <link rel="stylesheet" type="text/css" th:href="@{user/css/yours.css}">
+    <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>-->
 </head>
 <body id="mainBody" onload="clickhandle(2)">
 <div class="head">
