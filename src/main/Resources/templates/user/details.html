@@ -29,7 +29,7 @@
 <meta name="x5-page-mode" content="app">
 <!-- windows phone 点击无高光 -->
 <head>
-    <title>详情</title>
+    <title>文章详情</title>
     <link rel="stylesheet" type="text/css" th:href="@{/user/detail/css/details.css}">
     <!--<script type="text/javascript" th:src="@{/user/detail/js/jquery-3.3.1.min.js}"></script>-->
     <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
@@ -43,8 +43,11 @@
         <a href="">
             <li class="back"><img th:src="@{img/back.png}" alt=""></li>
         </a>
-        <li class="headphoto"><img th:src="${session.currentUser.imgUrl}"></li>
-        <li class="username" th:text="${session.currentUser.name}">用户名</li>
+        <li class="headphoto" th:if="${page.isHidden() == false}"><img th:src="${page.user.imgUrl}"></li>
+        <li class="username" th:if="${page.isHidden() == false}" th:text="${page.user.name}">用户名</li>
+
+        <li class="headphoto" th:if="${page.isHidden() == true}"><img src="/jewel/user/yours/img/anonymous-head.png"></li>
+        <li class="username" th:if="${page.isHidden() == true}">匿名</li>
     </ul>
     <div class="info">
         <p th:text="${page.text}">文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</p>

@@ -32,7 +32,7 @@ public class MyController {
 //        u = new User("oZhkF01xg0_wIAvE_F_QVf-Fl31M","http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erkD5FHBTAic3s9dkbbjqpicxLY8akDGJJicI0VkOxh6ASkziaHmoRicYV7NLnLrpUHSv89hGbc2DBrldQ/132', name='洪德衍'}","洪德衍");
 //        u.set_id("5b1df4b925ac299226c1057c");
         List<Page> pagesByUserId = service.findPagesByUserId(u.get_id(), page);
-        return JSON.serialize(pagesByUserId);
+        return com.alibaba.fastjson.JSON.toJSONString(pagesByUserId);
     }
 
     @RequestMapping("getLikeAndComment")

@@ -47,9 +47,9 @@ public class HtmlUtils {
         }
 
         if (content.length() > p) {
-            content = content.substring(0, p) + "...";
+            content = content.substring(0, p);
         } else {
-            content = content + "...";
+            content = content;
         }
 
 
