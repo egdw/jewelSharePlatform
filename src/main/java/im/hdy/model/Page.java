@@ -62,11 +62,17 @@ public class Page {
     }
 
     public Like getLikes() {
+//        if (likes.getUsers() != null) {
+//            this.liked = likes.getUsers().size();
+//        }
         return likes;
     }
 
     public void setLikes(Like likes) {
         this.likes = likes;
+//        if (likes.getUsers() != null) {
+//            this.liked = likes.getUsers().size();
+//        }
     }
 
     public Date getDate() {

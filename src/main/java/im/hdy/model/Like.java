@@ -38,6 +38,9 @@ public class Like {
     }
 
     public long getTotal() {
+        if (users != null) {
+            this.total = users.size();
+        }
         return total;
     }
 

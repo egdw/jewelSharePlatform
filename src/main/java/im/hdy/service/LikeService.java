@@ -1,12 +1,19 @@
 package im.hdy.service;
 
+import com.mongodb.WriteResult;
 import im.hdy.impl.LikeInterface;
 import im.hdy.model.Like;
+import im.hdy.model.Page;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 @Service
 public class LikeService {
@@ -18,6 +25,7 @@ public class LikeService {
     private LikeInterface likeInterface;
     @Autowired
     private PageService pageService;
+    private org.slf4j.Logger logger = LoggerFactory.getLogger(LikeService.class);
 
     public void update(Like like) {
 //        Like one = template.findOne(new Query(Criteria.where("_id").is(like.getUserId())), Like.class);
@@ -49,13 +57,28 @@ public class LikeService {
         if (indexOf != -1) {
             //说明曾经点赞
             users.remove(userId);
+            like.setUsers(users);
             Like save = likeInterface.save(like);
-            pageService.updateLikesNum(pageId, save);
+
+            WriteResult writeResult = template.updateFirst(new Query(Criteria.where("_id").is(pageId)), Update.update("liked", users.size()), Page.class);
+            int n = writeResult.getN();
+            logger.info("修改点赞的数量:" + n);
+            long liked = pageService.findOne(pageId).getLiked();
+            logger.info("获取到的点赞数量:" + liked);
+
+//            pageService.updateLikesNum(pageId, save);
             return false;
         } else {
             users.add(userId);
+            like.setUsers(users);
             Like save = likeInterface.save(like);
-            pageService.updateLikesNum(pageId, save);
+
+            WriteResult writeResult = template.updateFirst(new Query(Criteria.where("_id").is(pageId)), Update.update("liked", users.size()), Page.class);
+            int n = writeResult.getN();
+            logger.info("修改点赞的数量:" + n);
+//            pageService.updateLikesNum(pageId, save);
+            long liked = pageService.findOne(pageId).getLiked();
+            logger.info("获取到的点赞数量:" + liked);
             return true;
         }
         //添加或删除点赞

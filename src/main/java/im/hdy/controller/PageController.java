@@ -65,8 +65,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-//        session.setAttribute(Constants.CURRENTUSER, one);
+        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -97,11 +97,14 @@ public class PageController {
     @RequestMapping(value = "best", method = RequestMethod.GET)
     @ResponseBody
     public String getVeryBest(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
+
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         //用于判断是否是自己点赞的
+        //findbest存在问题- -
         List<Page> best = pageService.findBest(currentPage);
         for (int i = 0; i < best.size(); i++) {
             Page page = best.get(i);
+            log.info("获取到文章排序为:" + page.getLiked());
             Like likes =
                     page.getLikes();
             LinkedList<String> users = likes.getUsers();

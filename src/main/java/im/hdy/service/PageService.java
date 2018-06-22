@@ -134,24 +134,7 @@ public class PageService {
     }
 
     public List<Page> findBest(int currentPage) {
-        Criteria criteria = new Criteria();
-//        System.out.println(template.find(new Query(criteria.orOperator(Criteria.where("isinrecall").exists(false), Criteria.where("isinrecall").is(false))), Page.class));
-//        System.out.println(template.find(new Query(Criteria.where("isInRecall").is(false)).with(new Sort(Sort.Direction.DESC, "liked")), Page.class));
-        return template.find(new Query(criteria.orOperator(Criteria.where("isInRecall").exists(false), Criteria.where("isInRecall").is(false))).with(new Sort(Sort.Direction.DESC, "liked")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
-//        Aggregation aggregation = Aggregation.newAggregation(
-//                Aggregation.match(Criteria.where("isInRecall").is(false)),
-//                Aggregation.project().and("likes.users").project("size").as("count"));
-
-
-//        ArrayList<AggregationOperation> aggregations = new ArrayList<>();
-//        aggregations.add(Aggregation.match(Criteria.where("isInRecall").is(false)));
-//        aggregations.add(Aggregation.group("likes.users").count().as("total"));
-//        aggregations.add( Aggregation.project("total").and("_id").as("likes.users"));
-//        aggregations.add(Aggregation.sort(Sort.Direction.DESC, "total"));
-//        Aggregation newAggregation = Aggregation.newAggregation(aggregations);
-////        AggregationResults<Page> results = template.aggregate(newAggregation, Page.class);
-//        AggregationResults<Page> results = template.aggregate(newAggregation, Page.class, Page.class);
-//        System.out.println(results.getMappedResults());
+        return template.find(new Query(new Criteria().orOperator(Criteria.where("isInRecall").is(false), Criteria.where("isInRecall").exists(false))).with(new Sort(new Sort.Order(Sort.Direction.DESC, "liked"))).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Page.class);
     }
 
 
@@ -160,12 +143,15 @@ public class PageService {
         Like likes = one.getLikes();
         if (likes == null) {
             one.setLikes(like);
+            one.setLiked(likes.getTotal());
             pageInterface.save(one);
         }
 
         String id = pageInterface.findOne(pageId).getLikes().get_id();
         if (id == like.get_id()) {
             WriteResult writeResult = template.updateFirst(new Query(Criteria.where("_id").is(pageId)), Update.update("liked", like.getUsers().size()), Page.class);
+            int n = writeResult.getN();
+            logger.info("修改点赞的数量:" + n);
             return writeResult.getN();
         } else {
             return 0;
