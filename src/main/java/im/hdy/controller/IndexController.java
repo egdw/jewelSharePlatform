@@ -142,7 +142,7 @@ public class IndexController {
 //        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
 //        session.setAttribute(Constants.CURRENTUSER, one);
 //        session.setAttribute(Constants.CURRENTUSER, one);
-
+        
         return "user/me-message";
     }
 

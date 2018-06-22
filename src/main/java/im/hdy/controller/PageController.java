@@ -6,9 +6,11 @@ import im.hdy.constant.Constants;
 import im.hdy.impl.UserInterface;
 import im.hdy.model.Like;
 import im.hdy.model.Page;
+import im.hdy.model.Talk;
 import im.hdy.model.User;
 import im.hdy.service.LikeService;
 import im.hdy.service.PageService;
+import im.hdy.service.TalkService;
 import im.hdy.utils.HtmlUtils;
 import im.hdy.utils.RedisUtils;
 import net.coobird.thumbnailator.Thumbnails;
@@ -39,6 +41,8 @@ public class PageController {
     private UserInterface userInterface;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private TalkService talkService;
 
     /**
      * 单个pageId的数据
@@ -65,8 +69,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-//        session.setAttribute(Constants.CURRENTUSER, one);
+        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -149,6 +153,17 @@ public class PageController {
         }
         return JSON.toJSONString(pagesByMemoirs);
     }
+
+
+    @RequestMapping(value = "meMessage", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMessage(@RequestParam(required = false, defaultValue = "0") int currentPage, HttpSession session) {
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        List<Talk> talkyByUserIdAndTime = talkService.findTalkyByUserIdAndTime(u.get_id(), currentPage);
+        log.info("获取到的评论信息:" + talkyByUserIdAndTime);
+        return JSON.toJSONString(talkyByUserIdAndTime);
+    }
+
 
 //    @RequestMapping(method = RequestMethod.POST)
 //    public String add2(@RequestParam(required = true) String text, @RequestParam(required = false) MultipartFile[] file, HttpServletRequest request, HttpSession session, String isHidden) {

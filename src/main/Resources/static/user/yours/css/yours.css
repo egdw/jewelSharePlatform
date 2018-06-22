@@ -62,9 +62,11 @@ ul{
     font-size: 3em;
     text-align: center;
     background-color: rgba(255,255,255,0.8);
+    z-index: 9999;
 }
 .navigation img{
     height: 1em;
+    z-index: 9999;
 }
 .memoir span,.talk span,.mondaybest span{
     display: none;

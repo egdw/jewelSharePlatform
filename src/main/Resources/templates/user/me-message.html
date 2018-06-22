@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<meta name="viewport" content="user-scalable=no" />
+<meta name="viewport" content="user-scalable=no"/>
 <!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
-<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes"/>
 <!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 <!-- 忽略页面中的数字识别为电话号码,email识别 -->
-<meta name="format-detection"content="telephone=no, email=no" />
+<meta name="format-detection" content="telephone=no, email=no"/>
 <!-- 启用360浏览器的极速模式(webkit) -->
 <meta name="renderer" content="webkit">
 <!-- 避免IE使用兼容模式 -->
@@ -68,11 +68,101 @@
         </li>
     </ul>
 </div>
-<ul class="contents">
-    <li class="msg">
-        <p>用户1<strong>评论</strong>了您的文章<strong>文章前段摘要</strong>：厉害了厉害了...</p>
-        <span>1小时前</span>
-    </li>
+<ul id="mainBody" class="contents">
 </ul>
+<script>
+
+    var page = 0;
+    $(document).ready(function () {
+        get()
+    });
+
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if (scrollTop + windowHeight >= (scrollHeight - 100)) {
+            console.log("到达了底部..")
+            get();
+        }
+    });
+
+    function openNewWebSite(site) {
+        var domain = document.domain;
+        domain = "http://" + domain + "/jewel/detail?pageId=" + site;
+        console.log(site)
+        console.log(domain)
+        window.location.href = domain;
+    }
+
+    function get() {
+        $.ajax({
+            url: '/jewel/page/meMessage',
+            type: 'get',
+            async: true,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            dataType: 'json',
+            data: {currentPage: page},
+            success: function (data, textStatus, jqXHR) {
+                console.log(data)
+
+                $.each(data, function (index, content) {
+                    var time = timeago(content.talkTime)
+                    var message = content.message.substr(0, 10) + "..."
+                    console.log(message)
+                    console.log(time)
+                    console.log(content)
+                    var body = "<li onclick=\"openNewWebSite('" + content.parentPageId + "')\" class='msg'>" +
+                        "<p>" + content.user.name + "<strong>评论</strong>了您的文章：" + message + "</p>" +
+                        "<span>" + time + "</span>" + "</li>";
+                    $("#mainBody").append(body);
+                    page = page + 1;
+                });
+            }
+
+        })
+    }
+
+
+    function timeago(dateTimeStamp) {   //dateTimeStamp是一个时间毫秒，注意时间戳是秒的形式，在这个毫秒的基础上除以1000，就是十位数的时间戳。13位数的都是时间毫秒。
+        var minute = 1000 * 60;      //把分，时，天，周，半个月，一个月用毫秒表示
+        var hour = minute * 60;
+        var day = hour * 24;
+        var week = day * 7;
+        var halfamonth = day * 15;
+        var month = day * 30;
+        var now = new Date().getTime();   //获取当前时间毫秒
+        var diffValue = now - dateTimeStamp;//时间差
+        if (diffValue < 0) {
+            return;
+        }
+        var minC = diffValue / minute;  //计算时间差的分，时，天，周，月
+        var hourC = diffValue / hour;
+        var dayC = diffValue / day;
+        var weekC = diffValue / week;
+        var monthC = diffValue / month;
+        if (minC >= 1) {
+            result = " " + parseInt(minC) + "分钟前"
+        }
+        else if (hourC >= 1) {
+            result = " " + parseInt(hourC) + "小时前"
+        }
+        else if (dayC >= 1) {
+            result = " " + parseInt(dayC) + "天前"
+        }
+        else if (weekC >= 1) {
+            result = " " + parseInt(weekC) + "周前"
+        }
+        else if (monthC >= 1) {
+            result = " " + parseInt(monthC) + "月前"
+        }
+        else {
+            result = "刚刚";
+        }
+        return result;
+
+    }
+</script>
 </body>
 </html>
