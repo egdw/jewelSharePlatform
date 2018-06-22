@@ -65,8 +65,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-        session.setAttribute(Constants.CURRENTUSER, one);
+//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+//        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -76,6 +76,9 @@ public class PageController {
             Page page = pagesRandom.get(i);
             Like likes =
                     page.getLikes();
+            if (likes == null) {
+                continue;
+            }
             LinkedList<String> users = likes.getUsers();
             log.info("点赞信息" + users);
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
@@ -107,6 +110,9 @@ public class PageController {
             log.info("获取到文章排序为:" + page.getLiked());
             Like likes =
                     page.getLikes();
+            if (likes == null) {
+                continue;
+            }
             LinkedList<String> users = likes.getUsers();
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
                 boolean contains = users.contains(u.get_id());
@@ -129,6 +135,9 @@ public class PageController {
             Page page = pagesByMemoirs.get(i);
             Like likes =
                     page.getLikes();
+            if (likes == null) {
+                continue;
+            }
             LinkedList<String> users = likes.getUsers();
             log.info("点赞信息" + users);
             if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {

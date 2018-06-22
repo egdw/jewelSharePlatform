@@ -17,10 +17,11 @@ import java.io.IOException;
  */
 public class SessionFilter implements Filter {
     private final Logger logger = LoggerFactory.getLogger(SessionFilter.class);
-    //    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
-    private final static String redirectUrL = "http://t.cn/RBBIBdd";
+    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+//    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+    //    private final static String redirectUrL = "http://t.cn/RBBIBdd";
     //排除的一些请求地址...
-    private final static String[] outofUrl = new String[]{"http://test2.hongdeyan.cn/jewel/url"};
+    private final static String[] outofUrl = new String[]{Constants.URL + "/jewel/url"};
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

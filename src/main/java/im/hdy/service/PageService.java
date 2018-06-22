@@ -33,8 +33,9 @@ public class PageService {
     }
 
     public Page findOne(String id) {
-        Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);
-        return page;
+        return pageInterface.findOne(id);
+//        Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);
+//        return page;
     }
 
     public List<Page> findAll() {

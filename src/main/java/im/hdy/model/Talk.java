@@ -1,5 +1,6 @@
 package im.hdy.model;
 
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 @Document
 public class Talk {
     private String _id;
-    @DBRef
+    @DBRef(db = "smallTalk")
     private ArrayList<SmallTalk> talks;
     private Date talkTime;
     private String message;
@@ -79,7 +80,7 @@ public class Talk {
         return "Talk{" +
                 "_id='" + _id + '\'' +
                 ", talks=" + talks +
-                ", TalkTime=" + talkTime +
+                ", talkTime=" + talkTime +
                 ", message='" + message + '\'' +
                 ", parentPageId='" + parentPageId + '\'' +
                 ", user=" + user +

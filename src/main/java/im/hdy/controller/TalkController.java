@@ -3,6 +3,7 @@ package im.hdy.controller;
 import com.mongodb.util.JSON;
 import com.sun.tools.internal.jxc.ap.Const;
 import im.hdy.constant.Constants;
+import im.hdy.impl.SmallTalkService;
 import im.hdy.model.Page;
 import im.hdy.model.SmallTalk;
 import im.hdy.model.Talk;
@@ -28,8 +29,11 @@ public class TalkController {
     private TalkService talkService;
     @Autowired
     private PageService pageService;
+    @Autowired
+    private SmallTalkService smallTalkService;
+    private Logger logger = LoggerFactory.getLogger(TalkController.class);
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "addSmallPage", method = RequestMethod.POST)
     public String addTalk(String talk_id, String talk_message, @RequestParam(required = false) String destSmallTalkId, HttpSession session) {
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         Talk one = talkService.findOne(talk_id);
@@ -70,14 +74,14 @@ public class TalkController {
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "addBigPage", method = RequestMethod.POST)
     public String addTalkPage(@RequestParam(required = true) String pageId, @RequestParam(required = true) String talk_message, HttpSession session) {
         if (RedisUtils.isExist(Constants.TALK_SEND_TIME_NAME)) {
             //防止请求频率太快
             return Constants.tooQuickMessage;
         }
         //过滤各种非法字符
-        talk_message = HtmlUtils.getNoHTMLString(talk_message,150);
+        talk_message = HtmlUtils.getNoHTMLString(talk_message, 120);
         Page one = pageService.findOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         ArrayList<Talk> talks = one.getTalks();
@@ -90,7 +94,9 @@ public class TalkController {
         talk.setTalkTime(new Date());
         Talk save = talkService.save(talk);
         talks.add(save);
+        one.setTalks(talks);
         pageService.addPage(one);
+
         RedisUtils.setAndExpire(Constants.TALK_SEND_TIME_NAME, " ", Constants.TALK_SEND_TIME);
         return Constants.successMessage;
     }

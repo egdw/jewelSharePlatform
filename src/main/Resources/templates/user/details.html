@@ -30,12 +30,11 @@
 <!-- windows phone 点击无高光 -->
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <head>
-    <title>文章详情</title>
+    <title id="pageTitle" th:alt="${page._id}">文章详情</title>
     <link rel="stylesheet" type="text/css" th:href="@{/user/detail/css/details.css}">
     <!--<script type="text/javascript" th:src="@{/user/detail/js/jquery-3.3.1.min.js}"></script>-->
     <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <script type="text/javascript" th:src="@{/user/detail/js/details.js}"></script>
     <script src="https://cdn.bootcss.com/jquery.swipebox/1.4.4/js/jquery.swipebox.min.js"></script>
     <link href="https://cdn.bootcss.com/jquery.swipebox/1.4.4/css/swipebox.min.css" rel="stylesheet">
 
@@ -53,6 +52,9 @@
         <li class="headphoto" th:if="${page.isHidden() == true}"><img src="/jewel/user/yours/img/anonymous-head.png">
         </li>
         <li class="username" th:if="${page.isHidden() == true}" th:alt="${page._id}">匿名</li>
+        <button style="float: right;font-size: 3em;height: 2em;width: 4em;margin-right: 1em;margin-top: 0.3em;background-clip: 0;background-color: rgba(0,0,0,0);border: 0;color: white;">
+            删除
+        </button>
     </ul>
     <div class="info">
         <p th:text="${page.text}">文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</p>
@@ -63,7 +65,8 @@
         </div>
     </div>
     <div class="c-foot">
-        <span th:text="${page.liked}+'赞'+'  182评论'">785赞&nbsp;·&nbsp;182 评论</span>
+        <span th:if="${page.talks!=null}" th:text="${page.liked}+'赞'+'  '+${page.talks.size()}+'评论'">785赞&nbsp;·&nbsp;182 评论</span>
+        <span th:if="${page.talks==null}" th:text="${page.liked}+'赞'+'  0评论'">785赞&nbsp;·&nbsp;182 评论</span>
         <a href="javascript:void(0)" onclick="Toast('请点击右上角按钮转发！',2000)"><img th:src="@{/user/detail/img/forward.png}"></a>
         <a href="javascript:void(0)" onclick="comment()"><img th:src="@{/user/detail/img/comment.png}"></a>
         <a href="javascript:void(0)" onclick="like()" th:if="${page.userLiked== false}"><img
@@ -71,21 +74,27 @@
         <a href="javascript:void(0)" onclick="like()" th:if="${page.userLiked == true}"><img
                 th:src="@{/user/detail/img/s-like.png}"></a>
     </div>
-    <form action="" class="pinlun">
+    <!--<p th:text="${page}"></p>-->
+    <form onsubmit="return false;" class="pinlun">
         <textarea cols="10" rows="20" class="c-textarea"></textarea>
         <input type="submit" name="" value="回复">
     </form>
-    <ul class="comments">
-        <li class="one"><strong>用户名1</strong>：这是一级评论这是一级评论这是一级评论这是一级评论</li>
-        <li class="one"><strong>用户名2</strong>：这是一级评论
-            <ul class="comments-2">
-                <li class="two"><strong>用户</strong>回复<strong>用户名2</strong>：这是二级评论这是二级评论这是二级评论这是二级评论</li>
-            </ul>
-        </li>
+    <ul class="comments" th:if="${page.talks!=null && page.talks.size()>0}" th:each="talk:${page.talks}">
+        <p th:if="${talk.talks!=null}" th:text="${talk.talks}"></p>
+        <li class="one" th:alt="${talk._id}" th:if="${talk.talks == null || talk.talks.size() == 0}"><strong
+                th:text="${talk.user.name}">用户名1</strong>：<p th:text="${talk.message}">这是一级评论这是一级评论这是一级评论这是一级评论</p></li>
+        <!--<li class="one" th:alt="${talk._id}" th:if="${talk.talks!=null && talk.talks.size()>0}"><strong>用户名2</strong>：这是一级评论-->
+        <!--<ul class="comments-2" th:each="small:${talk.talks}">-->
+        <!--<li class="two" th:alt="${small._id}"><strong th:text="${small.user.name}">用户</strong>回复<strong-->
+        <!--th:text="${small.destUser.name}">用户名2</strong>：<p th:text="${small.message}">-->
+        <!--这是二级评论这是二级评论这是二级评论这是二级评论</p></li>-->
+        <!--</ul>-->
+        <!--</li>-->
     </ul>
 </div>
 <img th:src="@{/user/detail/img/like.png}" style="display: none">
 <img th:src="@{/user/detail/img/s-like.png}" style="display: none">
+<script type="text/javascript" th:src="@{/user/detail/js/details.js}"></script>
 </body>
 <script type="text/javascript">
     ;(function ($) {

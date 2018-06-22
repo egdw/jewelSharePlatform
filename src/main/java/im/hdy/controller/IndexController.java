@@ -45,72 +45,74 @@ public class IndexController {
 //        userService.deleteUser("5b1bc8d725ac57e5a615c75a");
 //        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
 //        session.setAttribute(Constants.CURRENTUSER, one);
-        User u = (User) session.getAttribute(Constants.CURRENTUSER);
-        //用于判断是否是自己点赞的
-        List<Page> pagesRandom = pageService.findPagesRandom();
-        for (int i = 0; i < pagesRandom.size(); i++) {
-            Page page = pagesRandom.get(i);
-            Like likes =
-                    page.getLikes();
-            LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
-                boolean contains = users.contains(u.get_id());
-                page.setUserLiked(contains);
-            }
-            User user = page.getUser();
-            if (user == null) {
-                pageService.delete(page.get_id());
-                pagesRandom.remove(i);
-            }
-        }
-
+//        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+//        //用于判断是否是自己点赞的
+//        List<Page> pagesRandom = pageService.findPagesRandom();
+//        for (int i = 0; i < pagesRandom.size(); i++) {
+//            Page page = pagesRandom.get(i);
+//            Like likes =
+//                    page.getLikes();
+//            if (likes != null) {
+//                LinkedList<String> users = likes.getUsers();
+//                if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+//                    boolean contains = users.contains(u.get_id());
+//                    page.setUserLiked(contains);
+//                }
+//            }
+//            User user = page.getUser();
+//            if (user == null) {
+//                pageService.delete(page.get_id());
+//                pagesRandom.remove(i);
+//            }
+//        }
+//
         List<Banner> all = bannerService.findAll();
         map.put("banners", all);
-        map.put("pages", pagesRandom);
+//        map.put("pages", pagesRandom);
         return "user/yours";
     }
 
     @RequestMapping("memorize")
     public String memorize(HttpSession session, Map<String, Object> map) {
-        User u = (User) session.getAttribute(Constants.CURRENTUSER);
-        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(0);
-        //用于判断是否是自己点赞的
-        for (int i = 0; i < pagesByMemoirs.size(); i++) {
-            Page page = pagesByMemoirs.get(i);
-            Like likes =
-                    page.getLikes();
-            LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
-                boolean contains = users.contains(u.get_id());
-                page.setUserLiked(contains);
-            }
-        }
+//        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+//        List<Page> pagesByMemoirs = pageService.findPagesByMemoirs(0);
+//        //用于判断是否是自己点赞的
+//        for (int i = 0; i < pagesByMemoirs.size(); i++) {
+//            Page page = pagesByMemoirs.get(i);
+//            Like likes =
+//                    page.getLikes();
+//            LinkedList<String> users = likes.getUsers();
+//            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+//                boolean contains = users.contains(u.get_id());
+//                page.setUserLiked(contains);
+//            }
+//        }
         List<Banner> all = bannerService.findAll();
         map.put("banners", all);
-        map.put("pages", pagesByMemoirs);
+//        map.put("pages", pagesByMemoirs);
         return "user/memorize";
     }
 
     @RequestMapping("best")
     public String best(HttpSession session, Map<String, Object> map) {
-        User u = (User) session.getAttribute(Constants.CURRENTUSER);
-        //用于判断是否是自己点赞的
-        logger.info("最佳文章获取中..");
-        List<Page> best = pageService.findBest(0);
-        for (int i = 0; i < best.size(); i++) {
-            Page page = best.get(i);
-            Like likes =
-                    page.getLikes();
-            LinkedList<String> users = likes.getUsers();
-            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
-                boolean contains = users.contains(u.get_id());
-                page.setUserLiked(contains);
-            }
-        }
+//        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+//        //用于判断是否是自己点赞的
+//        logger.info("最佳文章获取中..");
+//        List<Page> best = pageService.findBest(0);
+//        for (int i = 0; i < best.size(); i++) {
+//            Page page = best.get(i);
+//            Like likes =
+//                    page.getLikes();
+//            LinkedList<String> users = likes.getUsers();
+//            if (likes != null && users != null && users.size() > 0 && u != null && u.get_id() != null) {
+//                boolean contains = users.contains(u.get_id());
+//                page.setUserLiked(contains);
+//            }
+//        }
         List<Banner> all = bannerService.findAll();
         map.put("banners", all);
-        logger.info("最佳文章获取" + best);
-        map.put("pages", best);
+//        logger.info("最佳文章获取" + best);
+//        map.put("pages", best);
         return "user/best";
     }
 
@@ -126,12 +128,12 @@ public class IndexController {
 //        临时使用
 //        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
 //        session.setAttribute(Constants.CURRENTUSER, one);
-        User u = (User) session.getAttribute(Constants.CURRENTUSER);
-        List<Page> pagesByUserId = pageService.findPagesByUserId(u.get_id(), page);
+//        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+//        List<Page> pagesByUserId = pageService.findPagesByUserId(u.get_id(), page);
 //        return JSON.serialize(pagesByUserId);
 //        session.setAttribute("pages", pagesByUserId);
-        maps.put("pages", pagesByUserId);
-        logger.info("获取到的我发布的文章:" + pagesByUserId);
+//        maps.put("pages", pagesByUserId);
+//        logger.info("获取到的我发布的文章:" + pagesByUserId);
         return "user/me";
     }
 
@@ -160,6 +162,7 @@ public class IndexController {
                 }
             }
             maps.put("page", one);
+//            logger.info("获取到的小对话"+one.getTalks().get(0).getTalks());
             return "user/details";
         } else {
             return "error";

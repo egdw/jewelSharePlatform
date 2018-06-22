@@ -76,7 +76,7 @@ ul{
 .c-textarea{
 	height: 5em;
 	margin: 1px 0 0 1em;
-	width: 20em;
+	width: 80%;
 	font-size: 3em;
 	float: left;
 }
@@ -89,7 +89,8 @@ ul{
 	font-size: 3em;
 	float: left;
 	height: 4.1em;
-	width: 2em;
+	width: 11%;
+	-webkit-border-radius:0px;
 }
 .comments{
 	font-size: 2em;
@@ -105,3 +106,4 @@ ul{
 .two{
 	padding-left: 1em;
 }
+input {-webkit-appearance: button; /*去除input默认样式*/}

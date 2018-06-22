@@ -60,6 +60,7 @@ $(document).ready(function () {
         }
     })
 });
+
 //点赞
 function like() {
     var usernameClass = document.getElementsByClassName("username")[0]
@@ -83,12 +84,14 @@ function like() {
     })
 }
 
+var ID;
+
 //显示评论框
 function comment() {
-    $('.pinlun').slideToggle('fast', function () {
-
-        $('.c-foot img')[1].src = 'img/s-comment.png';
-    });
+    var ta = $('.pinlun').children('textarea');
+    $('.pinlun').css('display', 'block');
+    ta.val("");
+    $('.pinlun').attr('alt', '1');
 }
 
 //自定义弹框
@@ -106,4 +109,146 @@ function Toast(msg, duration) {
             document.body.removeChild(m)
         }, d * 1000);
     }, duration);
-} 
+}
+
+
+var onetwoflg = true;//为了防止点了二级评论跳到一级评论的函数里（因为二级评论是一级评论的子元素所以也会触发click事件）
+$('.one').click(function () {
+    console.log(onetwoflg);
+    if (onetwoflg) {
+        var name = $(this).children('strong').text();
+        ID = $(this).attr("alt")
+        // pinlun(name);
+        $('.pinlun').css('display', 'block');
+        ta.val('');
+        $('.pinlun').attr('alt', '1');//在评论的表格的alt上添加是一级评论还是二级评论
+    }
+    onetwoflg = true;//默认为true
+})
+$('.two').click(function () {
+    var name = $(this).children('strong:eq(0)');
+    ID = $(this).attr("alt")
+    // pinlun(name.text());
+    $('.pinlun').css('display', 'block');
+    ta.val('');
+    $('.pinlun').attr('alt', '1');
+    $('.pinlun textarea').attr('alt', ID);//在输入框的alt里放当前小的评论id（可能要从评论的li的alt里取出来）
+    onetwoflg = false;//点击就把flg置为false
+})
+
+function pinlun(name) {//修改评论输入框里的预设内容
+    var ta = $('.pinlun').children('textarea');
+    console.log(ta);
+    $('.pinlun').css('display', 'block');
+    ta.val('回复 ' + name + ':');
+}
+
+$('.pinlun').focusin(function (event) {
+    /* Act on the event */
+    $('.pinlun').css('display', 'block');
+});
+/*这个加上就会不能提交
+$('.pinlun').focusout(function(event) {
+
+	$('.pinlun').css('display', 'none');
+});
+*/
+$('form').submit(function (event) {
+    /* Act on the event */
+    submitpinlun($('.pinlun').attr('alt'));
+});
+
+function submitpinlun(jibie) {//级别一级二级
+    // console.log(pageId)
+    console.log(jibie);
+    // jibie = '1';
+    var talk_message = $('.pinlun textarea').val();//评论框所有内容
+    var messages = talk_message.substr(talk_message.indexOf(':') + 1);//实际评论内容
+    console.log(messages);
+    switch (jibie) {
+        case '1':
+            var pageId1 = $("#pageTitle").attr("alt");//大写的id我也不知道写啥所以就在最前面定义了个变量下面注释的ajax我没试过
+            $.ajax({
+                url: '/jewel/talk/addBigPage',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    pageId: pageId1,
+                    talk_message: messages
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data)
+                }
+            })
+            break;
+        case '2':
+            var talk_id1 = ID;
+            var destSmallTalkId1 = $('.pinlun textarea').attr('alt');//当前小的评论id我放在输入框的alt里
+            $.ajax({
+                url: '/jewel/talk/addSmallPage',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    talk_id: talk_id1,
+                    talk_message: messages,
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data)
+                }
+            })
+            break;
+        case '3':
+            var talk_id1 = ID;
+            var destSmallTalkId1 = $('.pinlun textarea').attr('alt');//当前小的评论id我放在输入框的alt里
+            $.ajax({
+                url: '/jewel/talk/addSmallPage',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    talk_id: talk_id1,
+                    talk_message: messages,
+                    destSmallTalkId: destSmallTalkId1
+                },
+            })
+                .done(function () {
+                    console.log("success");
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
+            break;
+    }
+    location.reload(true)
+    // var test = window.location.href.split('#')[0];
+    // window.location.replace(test)
+
+}
+
+var time = 0;//初始化起始时间
+$(".comments li").on('touchstart', function (e) {  //长按触发事件
+    e.stopPropagation(); //阻止事件冒泡到父元素，阻止任何父事件处理程序被执行
+    var tkid = $(this).attr('alt');//talkId存在li的alt里就可以读取了
+    time = setTimeout(function () {
+        if (confirm("确定要删除吗？")) {//如果确定删除
+            console.log(tkid);//
+            /*	            	$.ajax({
+                            url: 'http://test2.hongdeyan.cn/jewel/manager/deletecomment',
+                            type: 'delete',
+                            dataType: 'json',
+                            data: {talkId: tkid},
+                            success:function(e){
+                                console.log(e);
+                            },
+                        })  */
+        }
+    }, 500);//这里设置长按响应时间
+
+});
+
+$(".comments li").on('touchend', function (e) {  //长按事件结束
+    e.stopPropagation();
+    clearTimeout(time);
+});
