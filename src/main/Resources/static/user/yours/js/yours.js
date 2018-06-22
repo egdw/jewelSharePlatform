@@ -200,7 +200,7 @@ function add(data) {
 
                 for (var i=0;i<len;i++)
                 {
-                    images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                    images = images + "<div class='swiper-slide' ><img class='swiper-slide'  src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
                 }
                 var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
                     "<div class='swiper-wrapper'>" + images + "</div></div>";

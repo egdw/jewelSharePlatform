@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="c-foot">
-        <span>785赞&nbsp;·&nbsp;182 评论</span>
+        <span th:text="${page.liked}+'赞'+'  182评论'">785赞&nbsp;·&nbsp;182 评论</span>
         <a href="javascript:void(0)" onclick="Toast('请点击右上角按钮转发！',2000)"><img th:src="@{/user/detail/img/forward.png}"></a>
         <a href="javascript:void(0)" onclick="comment()"><img th:src="@{/user/detail/img/comment.png}"></a>
         <a href="javascript:void(0)" onclick="like()" th:if="${page.userLiked== false}"><img
