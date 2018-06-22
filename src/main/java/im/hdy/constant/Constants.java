@@ -7,6 +7,11 @@ import java.util.Random;
 
 public class Constants {
 
+    public static String URL = "http://test2.hongdeyan.cn";
+
+    //临时保存用户之前访问的url地址
+    public static String PRE_URL = "PRE_URL";
+
     //图片文件保存路径
     public static String fileSaveUrl = null;
     //每页的数量
