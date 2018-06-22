@@ -42,6 +42,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.bundle.js"></script>
+
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
 </head>
 <body id="mainBody" onload="clickhandle(1)">
 <div class="head">
@@ -98,24 +101,6 @@
     }
 </style>
 
-<script>
-    var swiper = new Swiper('.swiper-container', {
-        spaceBetween: 30,
-        centeredSlides: true,
-        autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
 <script>
     var page = 0;
 

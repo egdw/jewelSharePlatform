@@ -110,6 +110,7 @@ ul{
     left: 0;
     font-size: 4em;
     text-align: center;
+    z-index: 9999;
 }
 .background{
     height: 2.7em;
@@ -119,6 +120,7 @@ ul{
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 9999;
 }
 .you{
     float: left;

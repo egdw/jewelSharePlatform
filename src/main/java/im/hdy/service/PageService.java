@@ -2,6 +2,7 @@ package im.hdy.service;
 
 import com.mongodb.WriteResult;
 import im.hdy.constant.Constants;
+import im.hdy.impl.LikeInterface;
 import im.hdy.impl.PageInterface;
 import im.hdy.model.Like;
 import im.hdy.model.Page;
@@ -14,8 +15,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class PageService {
@@ -24,6 +25,12 @@ public class PageService {
     private MongoTemplate template;
     @Autowired
     private PageInterface pageInterface;
+    @Autowired
+    private LikeInterface likeInterface;
+
+    public Like save(Like like) {
+        return likeInterface.save(like);
+    }
 
     public Page findOne(String id) {
         Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);
@@ -142,8 +149,11 @@ public class PageService {
         Page one = pageInterface.findOne(pageId);
         Like likes = one.getLikes();
         if (likes == null) {
-            one.setLikes(like);
-            one.setLiked(likes.getTotal());
+            likes = new Like();
+            likes.setUsers(new LinkedList<String>());
+            Like save = save(likes);
+            one.setLikes(save);
+            one.setLiked(save.getTotal());
             pageInterface.save(one);
         }
 

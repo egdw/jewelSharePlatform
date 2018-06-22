@@ -40,7 +40,7 @@ public class LikeService {
 
     public Like saveLikes(Like like, String pageId) {
         Like save = likeInterface.save(like);
-        int size = save.getUsers().size();
+//        int size = save.getUsers().size();
         pageService.updateLikesNum(pageId, save);
         return save;
     }

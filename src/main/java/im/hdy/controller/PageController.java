@@ -158,6 +158,10 @@ public class PageController {
 
         //过滤所有的html代码
         text = HtmlUtils.getNoHTMLString(text, 300);
+        if (text == null || text.length() <= 6) {
+            //防止什么都没有提交
+            return "redirect:/";
+        }
         log.info("过滤掉所有的html代码", text);
         //进行文件的上传
 //        pageService.addPage();

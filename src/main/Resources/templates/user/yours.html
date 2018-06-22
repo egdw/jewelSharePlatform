@@ -43,7 +43,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.bundle.js"></script>
     <title>你们</title>
-    <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>-->
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </head>
 <body id="mainBody" onload="clickhandle(2)">
 <div class="head">
@@ -104,24 +104,6 @@
     }
 </style>
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        spaceBetween: 30,
-        centeredSlides: true,
-        autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
-<script>
     function findAllBanner() {
         $.ajax({
             url: '/jewel/banner/findAll',
@@ -138,58 +120,6 @@
 
     $(document).ready(function () {
         findPage()
-        //
-        // $.ajax({
-        //     url: '/jewel/sign',
-        //     type: 'GET', //GET
-        //     async: true,    //或false,是否异步
-        //     timeout: 5000,    //超时时间
-        //     dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-        //     success: function (data, textStatus, jqXHR) {
-        //         console.log(data)
-        //         wx.config({
-        //             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        //             appId: 'wx04d5544324fa686e', // 必填，公众号的唯一标识
-        //             timestamp: data.timestamp, // 必填，生成签名的时间戳
-        //             nonceStr: data.nonce, // 必填，生成签名的随机串
-        //             signature: data.signature,// 必填，签名，见附录1
-        //             jsApiList: [
-        //                 'checkJsApi',
-        //                 'onMenuShareTimeline',
-        //                 'onMenuShareAppMessage',
-        //                 'onMenuShareQQ',
-        //                 'onMenuShareWeibo',
-        //                 'chooseWXPay'
-        //             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        //         });
-        //
-        //         // 分享给朋友、QQ、微博
-        //         var shareData = {
-        //             "imgUrl": '',
-        //             "title": '测试分析',
-        //             "desc": '测试描述',
-        //             'link': 'http://www.baidu.com'
-        //         };
-        //         // 分享到朋友圈
-        //         var shareToTimeline = {
-        //             "imgUrl": '',
-        //             "title": '测试分析',
-        //             'link': '测试描述',
-        //             "desc": 'http://www.baidu.com'
-        //         }
-        //
-        //         wx.ready(function() {
-        //             wx.onMenuShareTimeline(shareToTimeline);
-        //             wx.onMenuShareAppMessage(shareData);
-        //             wx.onMenuShareQQ(shareData);
-        //             wx.onMenuShareQZone(shareData);
-        //
-        //             wx.error(function(res) {
-        //                 alert(res.errMsg);
-        //             });
-        //         });
-        //     }
-        // })
     });
     $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();

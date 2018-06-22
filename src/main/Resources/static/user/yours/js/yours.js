@@ -1,8 +1,67 @@
 var index = 0;//每张图片的下标，
 
-window.onload = function () {
-    console.log("已经加载..")
-}
+$(document).ready(function () {
+    var test = window.location.href.split('#')[0];
+    var domain = document.domain;
+    console.log("获取到的地址:" + test)
+    console.log("获取到的domain:" + domain)
+    $.ajax({
+        url: '/jewel/sign',
+        type: 'GET', //GET
+        async: true,    //或false,是否异步
+        timeout: 5000,    //超时时间
+        data: {
+            'requestUrl': test
+        },
+        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success: function (data, textStatus, jqXHR) {
+            console.log(data)
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名，见附录1
+                jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'chooseWXPay'
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+
+            var logoUrl = "http://" + domain + "/jewel/upload/logo.jpg";
+            // 分享给朋友、QQ、微博
+            var shareData = {
+                // "imgUrl": 'http://test2.hongdeyan.cn/jewel/upload/logo.jpg',
+                "imgUrl": logoUrl,
+                "title": '我刚刚上传的图文',
+                "desc": '快过来看看吧~',
+                'link': test
+            };
+            // 分享到朋友圈
+            var shareToTimeline = {
+                "imgUrl": logoUrl,
+                "title": '测试分析',
+                'link': '测试描述',
+                "desc": '这个东西不错啊'
+            }
+
+            wx.ready(function () {
+                wx.onMenuShareTimeline(shareToTimeline);
+                wx.onMenuShareAppMessage(shareData);
+                wx.onMenuShareQQ(shareData);
+                wx.onMenuShareQZone(shareData);
+
+                wx.error(function (res) {
+                    alert(res.errMsg);
+                });
+            });
+        }
+    })
+});
 
 //一轮过后，还是第二轮
 function autoPlay(imgLength) {
@@ -136,11 +195,19 @@ function add(data) {
         }
         if (isHidden == true) {
             console.log("是隐藏的样式")
-            // var talkLen = content.
             if (len > 0) {
+                var images = "";
+
+                for (var i=0;i<len;i++)
+                {
+                    images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                }
+                var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
+                    "<div class='swiper-wrapper'>" + images + "</div></div>";
+
                 var body = " <ul class=\"contents\" ><li class='anonymous'>" +
                     "<div class='c-head'>" + "<img src='/jewel/user/yours/img/anonymous-head.png'>" + "<div class='name'>匿名</div>" +
-                    "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
+                    "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + imgs + "</div>" +
                     "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                     "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" +
                     "<a href=\"javascript:void(0)\" onclick=\"Toast('请点击右上角按钮转发！',2000)\"><img src='user/yours/img/forward.png'></a>" +
@@ -178,9 +245,20 @@ function add(data) {
             if (isBoy == true) {
                 console.log("是男孩")
                 if (len > 0) {
+                    console.log("获取到的长度"+len)
+                    var images = "";
+
+                    for (var i=0;i<len;i++)
+                    {
+                        images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                    }
+                    var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
+                        "<div class='swiper-wrapper'>" + images + "</div></div>";
+
+
                     var body = " <ul class=\"contents\" ><li class='men'>" +
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>" + content.user.name + "</div>" +
-                        "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
+                        "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + imgs + "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                         "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                         "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>";
@@ -195,7 +273,22 @@ function add(data) {
                     }
                     $("#mainBody").append(body);
                     // <a style="text-decoration: none;color: #0f0f0f" th:href="'/jewel/detail?pageId='+${page._id}" th:text="${page.text}">文字文字文字纯文字排版背景灰色字体变细匿名用户</a>
-
+                    var swiper = new Swiper('.swiper-container', {
+                        spaceBetween: 30,
+                        centeredSlides: true,
+                        autoplay: {
+                            delay: 2500,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    });
                 } else {
                     var body = "<ul class=\"contents\" > <li class='men'>" +
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>" + content.user.name + "</div>" +
@@ -219,9 +312,17 @@ function add(data) {
             if (isBoy == false) {
                 console.log(("是女孩"))
                 if (len > 0) {
+                    var images = "";
+
+                    for (var i=0;i<len;i++)
+                    {
+                        images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                    }
+                    var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
+                        "<div class='swiper-wrapper'>" + images + "</div></div>";
                     var body = " <ul class=\"contents\" ><li class='women'>" +
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>" + content.user.name + "</div>" +
-                        "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + " <img src='" + "/jewel/upload/" + content.imgUrl[0] + "'>" + "</div>" +
+                        "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + imgs+ "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
                         "<div class='c-foot'>" + " <span>" + likeLen + "赞&nbsp;·&nbsp;182 评论</span>" + "<a href=''><img src='user/yours/img/forward.png'></a>" +
                         "<a href='" + "/jewel/detail?pageId=" + content.id + "'><img src='user/yours/img/comment.png'></a>";
