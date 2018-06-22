@@ -4,8 +4,8 @@ import com.mongodb.util.JSON;
 import com.sun.tools.internal.jxc.ap.Const;
 import im.hdy.constant.Constants;
 import im.hdy.impl.SmallTalkService;
+import im.hdy.impl.TalkInterface;
 import im.hdy.model.Page;
-import im.hdy.model.SmallTalk;
 import im.hdy.model.Talk;
 import im.hdy.model.User;
 import im.hdy.service.PageService;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("talk")
@@ -32,6 +33,8 @@ public class TalkController {
     @Autowired
     private SmallTalkService smallTalkService;
     private Logger logger = LoggerFactory.getLogger(TalkController.class);
+    @Autowired
+    private TalkInterface talkInterface;
 
     @RequestMapping(value = "addSmallPage", method = RequestMethod.POST)
     public String addTalk(String talk_id, String talk_message, @RequestParam(required = false) String destSmallTalkId, HttpSession session) {
@@ -91,6 +94,7 @@ public class TalkController {
         Talk talk = new Talk(new Date(), talk_message);
         talk.setUser(u);
         talk.setParentPageId(pageId);
+        talk.setPageuser(one.getUser());
         talk.setTalkTime(new Date());
         Talk save = talkService.save(talk);
         talks.add(save);
@@ -101,6 +105,23 @@ public class TalkController {
         return Constants.successMessage;
     }
 
+    @RequestMapping("test")
+    public String test() {
+        List<Talk> all =
+                talkInterface.findAll();
+        for (int i = 0; i < all.size(); i++) {
+            Talk talk = all.get(i);
+            User pageUser = talk.getPageuser();
+//            if (pageUser == null) {
+            String parentPageId = talk.getParentPageId();
+            Page one = pageService.findOne(parentPageId);
+            talk.setPageuser(one.getUser());
+            all.set(i, talk);
+            talkService.save(talk);
+//            }
+        }
+        return null;
+    }
 //    @RequestMapping(method = RequestMethod.DELETE)
 //    //删除评论
 //    public void delComment(String talkId) {

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class SessionFilter implements Filter {
     private final Logger logger = LoggerFactory.getLogger(SessionFilter.class);
     private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
-//    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+    //    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
     //    private final static String redirectUrL = "http://t.cn/RBBIBdd";
     //排除的一些请求地址...
     private final static String[] outofUrl = new String[]{Constants.URL + "/jewel/url"};
@@ -34,7 +34,13 @@ public class SessionFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         //获取到当前正在请求的链接地址
         String pre_Url = httpRequest.getRequestURL().toString();
+        String requestURI = httpRequest.getRequestURI();
+        if (pre_Url != null && pre_Url.contains("detail")) {
+            String queryString = ((HttpServletRequest) servletRequest).getQueryString();
+            pre_Url = pre_Url + "?" + queryString;
+        }
         logger.info("当前请求的地址为:" + pre_Url);
+        logger.info("当前请求的requestURI地址为:" + requestURI);
 //        logger.info("当前正在请求的链接地址:" + pre_Url);
         //获取到session对象,通过session中判断用户是否已经登录,同时保存用户现在浏览的网页
         HttpSession session = httpRequest.getSession();

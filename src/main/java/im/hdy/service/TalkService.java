@@ -34,7 +34,10 @@ public class TalkService {
 
 
     public List<Talk> findTalkyByUserIdAndTime(String userId, int currentPage) {
-        return template.find(new Query(Criteria.where("user._id").is(userId)).with(new Sort(Sort.Direction.DESC, "TalkTime")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Talk.class);
+        return template.find(new Query(new Criteria().andOperator(Criteria.where("pageuser._id").is(userId), Criteria.where("user._id").ne(userId))).with(new Sort(Sort.Direction.DESC, "TalkTime")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Talk.class);
+//        return template.find(new Query(Criteria.where("pageuser._id").is(userId)).with(new Sort(Sort.Direction.DESC, "TalkTime")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Talk.class);
+//        return template.find(new Query(Criteria.where("pageuser._id").is(userId)).with(new Sort(Sort.Direction.DESC, "TalkTime")).skip(currentPage * Constants.PAGENUM).limit(Constants.PAGENUM), Talk.class);
+
     }
 
     public void delete(String talkId) {
@@ -42,12 +45,12 @@ public class TalkService {
     }
 
 
-    public SmallTalk saveSmallTalk(SmallTalk talk){
+    public SmallTalk saveSmallTalk(SmallTalk talk) {
         SmallTalk save = smallTalkService.save(talk);
         return save;
     }
 
-    public SmallTalk findSmallTalkOne(String _id){
+    public SmallTalk findSmallTalkOne(String _id) {
         return smallTalkService.findOne(_id);
     }
 }

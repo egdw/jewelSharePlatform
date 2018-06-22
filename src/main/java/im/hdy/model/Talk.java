@@ -1,6 +1,5 @@
 package im.hdy.model;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -74,6 +73,13 @@ public class Talk {
         this.user = user;
     }
 
+    public User getPageuser() {
+        return pageuser;
+    }
+
+    public void setPageuser(User pageuser) {
+        this.pageuser = pageuser;
+    }
 
     @Override
     public String toString() {
@@ -84,6 +90,7 @@ public class Talk {
                 ", message='" + message + '\'' +
                 ", parentPageId='" + parentPageId + '\'' +
                 ", user=" + user +
+                ", pageuser=" + pageuser +
                 '}';
     }
 }
