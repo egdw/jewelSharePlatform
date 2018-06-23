@@ -68,8 +68,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-//        session.setAttribute(Constants.CURRENTUSER, one);
+        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);

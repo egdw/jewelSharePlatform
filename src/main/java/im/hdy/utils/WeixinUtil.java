@@ -3,6 +3,7 @@ package im.hdy.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import im.hdy.constant.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -15,6 +16,12 @@ import java.util.UUID;
 
 @Component
 public class WeixinUtil {
+    private static ConfigUtils configUtils;
+
+    @Autowired
+    public void setConfigUtils(ConfigUtils configUtils) {
+        this.configUtils = configUtils;
+    }
 
     /**
      * 方法名：getWxConfig</br>
@@ -27,8 +34,8 @@ public class WeixinUtil {
     public static Map<String, Object> getWxConfig(String requestUrl) {
         Map<String, Object> ret = new HashMap<String, Object>();
 
-        String appId = Constants.WX_APPID; // 必填，公众号的唯一标识
-        String secret = Constants.WX_APPSECRET;
+        String appId = configUtils.getWX_APPID(); // 必填，公众号的唯一标识
+        String secret = configUtils.getWX_APPSECRET();
 
 //        String requestUrl = requestUrl;
         String access_token = "";

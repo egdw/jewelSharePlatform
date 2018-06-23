@@ -10,17 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan
 @SpringBootApplication
 @EnableScheduling
-//public class StartClass extends SpringBootServletInitializer {
-//    public static void main(String[] args) {
-//        SpringApplication.run(StartClass.class, args);
-//    }
-//
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//        return application.sources(StartClass.class);
-//    }
-//
-//}
 public class StartClass extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(StartClass.class, args);
@@ -32,3 +21,14 @@ public class StartClass extends SpringBootServletInitializer {
     }
 
 }
+//public class StartClass extends SpringBootServletInitializer {
+//    public static void main(String[] args) {
+//        SpringApplication.run(StartClass.class, args);
+//    }
+//
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//        return application.sources(StartClass.class);
+//    }
+//
+//}

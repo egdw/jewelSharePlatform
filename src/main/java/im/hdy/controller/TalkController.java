@@ -124,6 +124,8 @@ public class TalkController {
     public String delComment(String talkId, HttpSession session) {
         logger.info("获取到的talkID:" + talkId);
         Talk one = talkService.findOne(talkId);
+        String parentPageId = one.getParentPageId();
+        Page page = pageService.findOne(parentPageId);
         logger.info("获取到的Talk类" + one);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         if (one != null) {
@@ -131,6 +133,16 @@ public class TalkController {
             if (user.get_id().equals(u.get_id())) {
                 //说明是自己的
                 logger.info("是自己发布的评论");
+                ArrayList<Talk> talks = page.getTalks();
+                for (int i = 0; i < talks.size(); i++) {
+                    Talk talk = talks.get(i);
+                    if (talk.get_id().equals(talkId)) {
+                        talks.remove(i);
+                        break;
+                    }
+                }
+                page.setTalks(talks);
+                pageService.savePage(page);
                 talkService.delete(talkId);
                 return Constants.successMessage;
             }
@@ -141,6 +153,16 @@ public class TalkController {
         if (isAdmin != null && !isAdmin.isEmpty()) {
             //说明是管理员,可以删除
             logger.info("管理员身份可以删除");
+            ArrayList<Talk> talks = page.getTalks();
+            for (int i = 0; i < talks.size(); i++) {
+                Talk talk = talks.get(i);
+                if (talk.get_id().equals(talkId)) {
+                    talks.remove(i);
+                    break;
+                }
+            }
+            page.setTalks(talks);
+            pageService.savePage(page);
             talkService.delete(talkId);
             return Constants.successMessage;
         }

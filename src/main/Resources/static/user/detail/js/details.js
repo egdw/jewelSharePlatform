@@ -177,13 +177,18 @@ function submitpinlun(jibie) {//级别一级二级
                     talk_message: messages
                 },
                 success: function (data, textStatus, jqXHR) {
-                    console.log(data)
-                    var body = "<ul class='comments'>" +
-                        "        <li class='one' th:alt='" + data.id + "' th:if=\"${talk.talks == null || talk.talks.size() == 0}\"><strong" +
-                        "        >" + data.user.name + "</strong>：<p>" + data.message + "</p></li>\n" +
-                        "    </ul>";
-                    console.log(body)
-                    $("#MainDiv").append(body)
+                    if (data.code == 501) {
+                        Toast("评论操作太过频繁!!", 2000);
+                    } else {
+                        console.log(data)
+                        var body = "<ul class='comments'>" +
+                            "        <li class='one' th:alt='" + data.id + "' th:if=\"${talk.talks == null || talk.talks.size() == 0}\"><strong" +
+                            "        >" + data.user.name + "</strong>：<p>" + data.message + "</p></li>\n" +
+                            "    </ul>";
+                        console.log(body)
+                        $("#MainDiv").append(body)
+                        Toast("评论成功!", 2000);
+                    }
                 }
             })
             break;
@@ -227,7 +232,7 @@ function submitpinlun(jibie) {//级别一级二级
                 });
             break;
     }
-    location.reload(true)
+    // location.reload(true)
     // var test = window.location.href.split('#')[0];
     // window.location.replace(test)
 
@@ -249,9 +254,10 @@ $(".comments li").on('touchstart', function (e) {  //长按触发事件
                 success: function (data) {
                     console.log(data)
                     if (data.code == 200) {
-                        Toast('删除成功!', 2000)
+                        Toast('删除评论成功!', 2000)
+                        $(this).parent().remove()
                     } else {
-                        Toast('删除失败!', 2000)
+                        Toast('删除评论失败!', 2000)
                     }
                 },
                 error: function () {

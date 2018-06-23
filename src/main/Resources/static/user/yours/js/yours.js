@@ -178,6 +178,9 @@ function liked(e) {
 
 function add(data) {
     //是不是男性
+    if (data.length == 0) {
+        return;
+    }
     var isBoy = data[0].user.boy;
     //是否是隐藏
     var isHidden = false;
