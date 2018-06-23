@@ -8,6 +8,7 @@ import im.hdy.impl.AdminInterface;
 import im.hdy.model.Admin;
 import im.hdy.model.User;
 import im.hdy.service.UserService;
+import im.hdy.utils.ConfigUtils;
 import im.hdy.utils.HttpsUtils;
 import im.hdy.utils.UserInfoUtils;
 import org.slf4j.Logger;
@@ -31,6 +32,8 @@ public class RedirectController {
     private UserService userService;
     @Autowired
     private AdminInterface adminInterface;
+    @Autowired
+    private ConfigUtils configUtils;
 
     /**
      * 微信网页授权流程:
@@ -53,13 +56,13 @@ public class RedirectController {
         // 2. 通过code换取网页授权access_token
         if (code != null || !(code.equals(""))) {
 
-            String APPID = Constants.WX_APPID;
-            String SECRET = Constants.WX_APPSECRET;
+            String APPID = configUtils.getWX_APPID();
+            String SECRET = configUtils.getWX_APPSECRET();
             String CODE = code;
             String WebAccessToken = "";
             String openId = "";
             String nickName, sex, openid = "";
-            String REDIRECT_URI = Constants.LOGINURL;
+            String REDIRECT_URI = configUtils.getREDIRECT_URL();
             String SCOPE = "snsapi_userinfo";
 
             String getCodeUrl = UserInfoUtils.getCode(APPID, REDIRECT_URI, SCOPE);

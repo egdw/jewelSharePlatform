@@ -2,26 +2,31 @@ package im.hdy.filter;
 
 import im.hdy.constant.Constants;
 import im.hdy.model.User;
+import im.hdy.utils.ConfigUtils;
 import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.management.LockInfo;
 
 /**
  * 过滤未登录用户,跳转到登陆接口获取用户的信息和权限
  */
 public class SessionFilter implements Filter {
     private final Logger logger = LoggerFactory.getLogger(SessionFilter.class);
-    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+    @Autowired
+    private ConfigUtils configUtils;
+    private String redirectUrL = null;
     //    private final static String redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.WX_APPID + "&redirect_uri=" + Constants.URL + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
     //    private final static String redirectUrL = "http://t.cn/RBBIBdd";
     //排除的一些请求地址...
-    private final static String[] outofUrl = new String[]{Constants.URL + "/jewel/url", Constants.URL + "jewel/wechat/"};
+    private String[] outofUrl = null;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,6 +38,13 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         //获取到当前正在请求的链接地址
+        if (redirectUrL == null) {
+            logger.info("测试内容" + configUtils.getURL());
+            redirectUrL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + configUtils.getWX_APPID() + "&redirect_uri=" + configUtils.getURL() + "/jewel/url&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+        }
+        if (outofUrl == null) {
+            outofUrl = new String[]{configUtils.getURL() + "/jewel/url", configUtils.getURL() + "jewel/wechat/"};
+        }
         String pre_Url = httpRequest.getRequestURL().toString();
         String requestURI = httpRequest.getRequestURI();
         if (pre_Url != null && (pre_Url.contains("detail") || pre_Url.contains("wechat"))) {

@@ -32,6 +32,11 @@ public class PageService {
         return likeInterface.save(like);
     }
 
+
+    public Page savePage(Page page){
+        return pageInterface.save(page);
+    }
+
     public Page findOne(String id) {
         return pageInterface.findOne(id);
 //        Page page = template.findOne(new Query(Criteria.where("_id").is(id)), Page.class);

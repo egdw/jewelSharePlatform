@@ -1,7 +1,6 @@
 package im.hdy.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.oracle.tools.packager.Log;
 import im.hdy.constant.Constants;
 import im.hdy.impl.UserInterface;
 import im.hdy.model.Like;

@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="format-detection" content="telephone=no, email=no"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<meta name="screen-orientation" content="portrait">
+<meta name="x5-orientation" content="portrait">
+<meta name="full-screen" content="yes">
+<meta name="x5-fullscreen" content="true">
+<meta name="browsermode" content="application">
+<meta name="x5-page-mode" content="app">
+
 <head>
     <title>发文界面</title>
     <link rel="stylesheet" type="text/css" th:href="@{user/writing/css/writing.css}">
@@ -26,7 +41,7 @@
             <input type="submit" name="" value="发布" style="outline: none;">
         </li>
         <li class="anonymous">
-            <input type="radio" th:src="@{user/writing/img/anonymous.png}" name="isHidden" value="匿名">匿名
+            <input type="checkbox" th:src="@{user/writing/img/anonymous.png}" name="isHidden" value="匿名">匿名
         </li>
     </ul>
     <textarea minlength="6" maxlength="300" cols="10" rows="10" class="content" name="text" placeholder="我想说......"></textarea>
