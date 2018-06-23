@@ -23,6 +23,36 @@ public class LoginController {
     @Autowired
     private AdminInterface adminInterface;
 
+    @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword, String newPassword, String repeatPassword, HttpSession session) {
+        logger.info("获取到的旧密码:" + oldPassword);
+        logger.info("获取到的新密码:" + newPassword);
+        logger.info("获取到的重复密码:" + repeatPassword);
+        if (newPassword == null || newPassword.length() == 0) {
+            return "redirect:/";
+        }
+//        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        List<Admin> all = adminInterface.findAll();
+        if (all != null && all.size() > 0) {
+            Admin admin = all.get(0);
+            String password = admin.getPassword();
+            if (password.equals(oldPassword) && newPassword.equals(repeatPassword)) {
+                admin.setPassword(newPassword);
+                adminInterface.save(admin);
+            }
+        } else {
+            Admin admin = new Admin();
+            if (oldPassword.equals("hzkj") && newPassword.equals(repeatPassword)) {
+                admin.setUsername("admin");
+                admin.setAdminUser(null);
+                admin.setPassword(newPassword);
+                adminInterface.save(admin);
+            }
+        }
+        return "redirect:/";
+    }
+
+
     @RequestMapping(method = RequestMethod.POST)
     public String login(String username, String password, HttpSession session) {
         logger.info("获取到的用户名:" + username);
