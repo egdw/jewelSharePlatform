@@ -178,6 +178,12 @@ function submitpinlun(jibie) {//级别一级二级
                 },
                 success: function (data, textStatus, jqXHR) {
                     console.log(data)
+                    var body = "<ul class='comments'>" +
+                        "        <li class='one' th:alt='" + data.id + "' th:if=\"${talk.talks == null || talk.talks.size() == 0}\"><strong" +
+                        "        >" + data.user.name + "</strong>：<p>" + data.message + "</p></li>\n" +
+                        "    </ul>";
+                    console.log(body)
+                    $("#MainDiv").append(body)
                 }
             })
             break;

@@ -98,7 +98,7 @@ public class TalkController {
         pageService.addPage(one);
 
         RedisUtils.setAndExpire(Constants.TALK_SEND_TIME_NAME, " ", Constants.TALK_SEND_TIME);
-        return Constants.successMessage;
+        return JSON.toJSONString(save);
     }
 
     //    @RequestMapping("test")
