@@ -231,18 +231,27 @@ var time = 0;//初始化起始时间
 $(".comments li").on('touchstart', function (e) {  //长按触发事件
     e.stopPropagation(); //阻止事件冒泡到父元素，阻止任何父事件处理程序被执行
     var tkid = $(this).attr('alt');//talkId存在li的alt里就可以读取了
+    console.log("tkid:" + tkid)
     time = setTimeout(function () {
         if (confirm("确定要删除吗？")) {//如果确定删除
             console.log(tkid);//
-            /*	            	$.ajax({
-                            url: 'http://test2.hongdeyan.cn/jewel/manager/deletecomment',
-                            type: 'delete',
-                            dataType: 'json',
-                            data: {talkId: tkid},
-                            success:function(e){
-                                console.log(e);
-                            },
-                        })  */
+            $.ajax({
+                url: '/jewel/talk',
+                type: 'post',
+                dataType: 'json',
+                data: {talkId: tkid},
+                success: function (data) {
+                    console.log(data)
+                    if (data.code == 200) {
+                        Toast('删除成功!', 2000)
+                    } else {
+                        Toast('删除失败!', 2000)
+                    }
+                },
+                error: function () {
+                    Toast('删除失败!', 2000)
+                }
+            })
         }
     }, 500);//这里设置长按响应时间
 

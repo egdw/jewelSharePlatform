@@ -37,7 +37,8 @@
 <body>
 <div class="top">
     <ul class="head">
-        <li class="headphoto"><img th:src="${session.currentUser.imgUrl}" alt=""></li>
+        <li class="headphoto"><img onclick=" window.location.replace('/jewel/adminlogin')"
+                                   th:src="${session.currentUser.imgUrl}" alt=""></li>
         <li class="username" th:text="${session.currentUser.name}">微信名</li>
     </ul>
     <ul class="nav" id="nav">

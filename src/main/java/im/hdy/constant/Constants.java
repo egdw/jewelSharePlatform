@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Constants {
 
-    public static String URL = "http://test2.hongdeyan.cn";
+    public static String URL = "http://test.hongdeyan.cn";
 
     //临时保存用户之前访问的url地址
     public static String PRE_URL = "PRE_URL";
@@ -46,4 +46,9 @@ public class Constants {
 
     public static final String WX_APPID = "wx04d5544324fa686e";
     public static final String WX_APPSECRET = "ac7197726c8715aec46729aa0b5b64a6";
+
+    //判断现在是否是管理员身份
+    public static final String ISADMIN = "ISADMIN";
+    //判断现在是否能够删除
+    public static final String ISCANDEL = "ISCANDEL";
 }

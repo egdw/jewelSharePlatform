@@ -52,7 +52,9 @@
         <li class="headphoto" th:if="${page.isHidden() == true}"><img src="/jewel/user/yours/img/anonymous-head.png">
         </li>
         <li class="username" th:if="${page.isHidden() == true}" th:alt="${page._id}">匿名</li>
-        <button style="float: right;font-size: 3em;height: 2em;width: 4em;margin-right: 1em;margin-top: 0.3em;background-clip: 0;background-color: rgba(0,0,0,0);border: 0;color: white;">
+        <button id="delButton" th:alt="${page._id}" onclick="delPage()"
+                th:if="${session.ISADMIN == 'true' || ISCANDEL == 'true'}"
+                style="float: right;font-size: 3em;height: 2em;width: 4em;margin-right: 1em;margin-top: 0.3em;background-clip: 0;background-color: rgba(0,0,0,0);border: 0;color: white;">
             删除
         </button>
     </ul>
@@ -100,5 +102,28 @@
     ;(function ($) {
         $('.swipebox').swipebox();
     })(jQuery);
+
+    function delPage() {
+        var pageId = $("#delButton").attr("alt")
+        $.ajax({
+            url: '/jewel/page/delPage',
+            type: 'POST',
+            async: true,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            dataType: 'json',
+            data: {pageId: pageId},
+            success: function (data, textStatus, jqXHR) {
+                console.log(data)
+                if (data.code == 200) {
+                    Toast('删除成功!', 2000)
+                } else {
+                    Toast('删除失败!', 2000)
+                }
+            },
+            error: function () {
+                Toast('删除失败!', 2000)
+            }
+        })
+    }
 </script>
 </html>

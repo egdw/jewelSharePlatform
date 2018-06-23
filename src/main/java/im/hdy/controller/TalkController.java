@@ -12,15 +12,11 @@ import im.hdy.service.PageService;
 import im.hdy.service.TalkService;
 import im.hdy.utils.HttpsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("talk")
@@ -105,27 +101,51 @@ public class TalkController {
         return Constants.successMessage;
     }
 
-    @RequestMapping("test")
-    public String test() {
-        List<Talk> all =
-                talkInterface.findAll();
-        for (int i = 0; i < all.size(); i++) {
-            Talk talk = all.get(i);
-            User pageUser = talk.getPageuser();
-//            if (pageUser == null) {
-            String parentPageId = talk.getParentPageId();
-            Page one = pageService.findOne(parentPageId);
-            talk.setPageuser(one.getUser());
-            all.set(i, talk);
-            talkService.save(talk);
-//            }
-        }
-        return null;
-    }
-//    @RequestMapping(method = RequestMethod.DELETE)
-//    //删除评论
-//    public void delComment(String talkId) {
-//        talkService.delete(talkId);
+    //    @RequestMapping("test")
+//    public String test() {
+//        List<Talk> all =
+//                talkInterface.findAll();
+//        for (int i = 0; i < all.size(); i++) {
+//            Talk talk = all.get(i);
+//            User pageUser = talk.getPageuser();
+////            if (pageUser == null) {
+//            String parentPageId = talk.getParentPageId();
+//            Page one = pageService.findOne(parentPageId);
+//            talk.setPageuser(one.getUser());
+//            all.set(i, talk);
+//            talkService.save(talk);
+////            }
+//        }
+//        return null;
 //    }
+    @RequestMapping(method = RequestMethod.POST)
+//删除评论
+    @ResponseBody
+    public String delComment(String talkId, HttpSession session) {
+        logger.info("获取到的talkID:" + talkId);
+        Talk one = talkService.findOne(talkId);
+        logger.info("获取到的Talk类" + one);
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        if (one != null) {
+            User user = one.getUser();
+            if (user.get_id().equals(u.get_id())) {
+                //说明是自己的
+                logger.info("是自己发布的评论");
+                talkService.delete(talkId);
+                return Constants.successMessage;
+            }
+            logger.info("不是自己发布的评论:" + u.get_id() + " " + user.get_id());
+        }
+
+        String isAdmin = (String) session.getAttribute(Constants.ISADMIN);
+        if (isAdmin != null && !isAdmin.isEmpty()) {
+            //说明是管理员,可以删除
+            logger.info("管理员身份可以删除");
+            talkService.delete(talkId);
+            return Constants.successMessage;
+        }
+        logger.info("返回错误消息");
+        return Constants.errorMessage;
+    }
 
 }

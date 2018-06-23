@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import im.hdy.constant.Constants;
+import im.hdy.impl.AdminInterface;
+import im.hdy.model.Admin;
 import im.hdy.model.User;
 import im.hdy.service.UserService;
 import im.hdy.utils.HttpsUtils;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class RedirectController {
@@ -26,6 +29,8 @@ public class RedirectController {
     public static final String WX_APPSECRET = "7ff4f93a3565d6101598477ba2ebf75c";
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminInterface adminInterface;
 
     /**
      * 微信网页授权流程:
@@ -131,14 +136,23 @@ public class RedirectController {
                                 //说明是新用户
                                 user = new User(openid, headimgurl, nickName);
                             }
-                            if(sex.equals("1")){
+                            if (sex.equals("1")) {
                                 //说明是男生
                                 user.setBoy(true);
-                            }else{
+                            } else {
                                 user.setBoy(false);
                             }
                             user = userService.saveUser(user);
                             logger.info("当前用户:" + user);
+                            List<Admin> all = adminInterface.findAll();
+                            if (all != null && all.size() > 0) {
+                                Admin admin = all.get(0);
+                                //判断id是否相同
+                                if (user.get_id().equals(admin.getAdminUser().get_id())) {
+                                    //说明是管理员身份
+                                    session.setAttribute(Constants.ISADMIN, "true");
+                                }
+                            }
                             session.setAttribute(Constants.CURRENTUSER, user);
                         } catch (JSONException e) {
                             logger.error("获取用户信息失败");

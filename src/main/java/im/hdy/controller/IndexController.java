@@ -142,7 +142,7 @@ public class IndexController {
 //        User one = userService.findOne("5b1f80dc25acdce3869c8c49");
 //        session.setAttribute(Constants.CURRENTUSER, one);
 //        session.setAttribute(Constants.CURRENTUSER, one);
-        
+
         return "user/me-message";
     }
 
@@ -162,6 +162,10 @@ public class IndexController {
                 }
             }
             maps.put("page", one);
+            if (u.get_id().equals(one.getUser().get_id())) {
+                //判断是不是作者自己,如果是的话:
+                maps.put(Constants.ISCANDEL, "true");
+            }
 //            logger.info("获取到的小对话"+one.getTalks().get(0).getTalks());
             return "user/details";
         } else {

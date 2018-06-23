@@ -69,8 +69,8 @@ public class PageController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @ResponseBody
     public String get(HttpSession session) {
-//        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
-//        session.setAttribute(Constants.CURRENTUSER, one);
+        User one = userInterface.findOne("5b1f80dc25acdce3869c8c49");
+        session.setAttribute(Constants.CURRENTUSER, one);
 
 
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
@@ -212,6 +212,28 @@ public class PageController {
         log.info("添加的内容" + addPage1);
         return "redirect:/";
 //        return Constants.successMessage;
+    }
+
+    @RequestMapping(value = "delPage", method = RequestMethod.POST)
+    @ResponseBody
+    private String delPage(String pageId, HttpSession session) {
+        Page one = pageService.findOne(pageId);
+        User u = (User) session.getAttribute(Constants.CURRENTUSER);
+        if (one != null && u != null) {
+            User user = one.getUser();
+            if (user.get_id().equals(u.get_id())) {
+                //可以删除
+                pageService.delete(pageId);
+                return Constants.successMessage;
+            }
+        }
+        String isAdmin = (String) session.getAttribute(Constants.ISADMIN);
+        if (isAdmin != null && !isAdmin.isEmpty()) {
+            //说明是管理员,可以删除
+            pageService.delete(pageId);
+            return Constants.successMessage;
+        }
+        return Constants.errorMessage;
     }
 
 
