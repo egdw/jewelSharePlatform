@@ -5,6 +5,8 @@ import im.hdy.model.Like;
 import im.hdy.model.Page;
 import im.hdy.model.User;
 import im.hdy.service.PageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,18 +22,26 @@ public class Scheduled {
 
     @Autowired
     private PageService pageService;
+    private Logger logger = LoggerFactory.getLogger(Scheduled.class);
 
-    @org.springframework.scheduling.annotation.Scheduled(cron = "0 0 1 ? * MON")
+
     //把数据提取放入到记忆录当中
     //每周一进行统计一次
     //每周一的凌晨一点自动执行下面的操作
+//    @org.springframework.scheduling.annotation.Scheduled(cron = "0 35 20 ? * MON")
+    @org.springframework.scheduling.annotation.Scheduled(cron = "0 0 1 ? * MON")
     public void goto_memoirs() {
         //用于判断是否是自己点赞的
         //findbest存在问题- -
+        logger.info("开始查找最佳文章");
         List<Page> best = pageService.findBest(0);
         if (best != null && best.size() > 0) {
             //获取到点赞数最多的文章
             Page page = best.get(0);
+            Like likes = page.getLikes();
+            if (likes != null && likes.getLength() > 0) {
+                logger.info("排名第一的点赞文章为:" + likes.getLength());
+            }
             page.setIsInRecall(true);
             page.setInRecall(true);
             page.setEnterInRecallDate(new Date());
@@ -69,6 +79,5 @@ public class Scheduled {
 //            pageService.update(one);
 //        }
     }
-
 
 }

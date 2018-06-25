@@ -169,6 +169,9 @@ public class IndexController {
 //            logger.info("获取到的小对话"+one.getTalks().get(0).getTalks());
             return "user/details";
         } else {
+            //说明是文章已经被删除了!
+            maps.put("errorCode", "404");
+            maps.put("errorMessage", "文章已经被删除!");
             return "error";
         }
     }

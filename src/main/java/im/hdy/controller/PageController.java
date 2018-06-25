@@ -209,13 +209,13 @@ public class PageController {
         Page addPage1 = pageService.addPage(page);
         RedisUtils.setAndExpire(Constants.PAGE_SEND_TIME_NAME, " ", Constants.PAGE_SEND_TIME);
         log.info("添加的内容" + addPage1);
-        return "redirect:/";
+        return "redirect:/me";
 //        return Constants.successMessage;
     }
 
     @RequestMapping(value = "delPage", method = RequestMethod.POST)
     @ResponseBody
-    private String delPage(String pageId, HttpSession session) {
+    private String delPage(String pageId, HttpSession session, HttpServletRequest request) {
         Page one = pageService.findOne(pageId);
         User u = (User) session.getAttribute(Constants.CURRENTUSER);
         if (one != null && u != null) {
@@ -223,6 +223,21 @@ public class PageController {
             if (user.get_id().equals(u.get_id())) {
                 //可以删除
                 pageService.delete(pageId);
+                //同时删除用户上传的图片已节省空间
+                StringBuilder sb = null;
+                if (Constants.fileSaveUrl == null) {
+                    sb = new StringBuilder()
+                            .append(request.getSession().getServletContext()
+                                    .getRealPath("/")).append("upload");
+                    Constants.fileSaveUrl = sb.toString();
+                }
+                ArrayList<String> imgUrl = one.getImgUrl();
+                for (String img : imgUrl) {
+                    File saveFile = new File(Constants.fileSaveUrl, img);
+                    if (saveFile.exists()) {
+                        saveFile.delete();
+                    }
+                }
                 return Constants.successMessage;
             }
         }

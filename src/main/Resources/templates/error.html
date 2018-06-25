@@ -1,47 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<meta name="viewport" content="user-scalable=no" />
-<!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<!-- 忽略页面中的数字识别为电话号码,email识别 -->
-<meta name="format-detection"content="telephone=no, email=no" />
-<!-- 启用360浏览器的极速模式(webkit) -->
+<meta name="viewport" content="user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="format-detection" content="telephone=no, email=no"/>
 <meta name="renderer" content="webkit">
-<!-- 避免IE使用兼容模式 -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
 <meta name="HandheldFriendly" content="true">
-<!-- 微软的老式浏览器 -->
 <meta name="MobileOptimized" content="320">
-<!-- uc强制竖屏 -->
 <meta name="screen-orientation" content="portrait">
-<!-- QQ强制竖屏 -->
 <meta name="x5-orientation" content="portrait">
-<!-- UC强制全屏 -->
 <meta name="full-screen" content="yes">
-<!-- QQ强制全屏 -->
 <meta name="x5-fullscreen" content="true">
-<!-- UC应用模式 -->
 <meta name="browsermode" content="application">
-<!-- QQ应用模式 -->
 <meta name="x5-page-mode" content="app">
-<!-- windows phone 点击无高光 -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>出现错误!</title>
-    <!-- Bootstrap core CSS -->
     <link th:href="@{/error/css/bootstrap.css}" rel="stylesheet">
-    <!-- FONT AWESOME CSS -->
-    <link th:href="@{/error/css/font-awesome.min.css}" rel="stylesheet" />
-    <!--GOOGLE FONT -->
+    <link th:href="@{/error/css/font-awesome.min.css}" rel="stylesheet"/>
     <link href='http://fonts.googleapis.com/css?family=Nova+Flat' rel='stylesheet' type='text/css'>
-    <!-- custom CSS here -->
-    <link th:href="@{/error/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/error/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -50,18 +32,19 @@
     <div class="row text-center">
         <div class="col-md-8 col-md-offset-2">
 
-            <h3> <i  class="fa fa-lightbulb-o fa-5x"></i> </h3>
-            <a href="/jewel/" class="btn btn-primary">回到主页</a>
+            <h3><i class="fa fa-lightbulb-o fa-5x"></i></h3>
+            <a th:if="${errorMessage!=null}"  href="javascript:void(0)" onclick="goback()" class="btn btn-primary">返回前页</a>
+            <a th:if="${errorMessage==null}" href="/jewel/" class="btn btn-primary">回到主页</a>
         </div>
         <div class="row pad-top text-center">
             <div class="col-md-6 col-md-offset-3 text-center">
-                <h1>  出现了一个异常! </h1>
-                <!--<h5> 请稍后重试!</h5>-->
+                <h1> 出现了一个异常! </h1>
                 <span id="error-link"></span>
-                <h2>! 可能是由于以下的原因 !</h2>
-                <h3>发文章和评论速度过快!</h3>
-                <h3>程序出现了错误!</h3>
-                <h3>没有找到文章!</h3>
+                <h2 th:if="${errorMessage!=null}" th:text="${errorMessage}">! 可能是由于以下的原因 !</h2>
+                <h2 th:if="${errorMessage==null}">! 可能是由于以下的原因 !</h2>
+                <h3 th:if="${errorMessage==null}">文章已经被删除!</h3>
+                <h3 th:if="${errorMessage==null}">发文章和评论速度过快!</h3>
+                <h3 th:if="${errorMessage==null}">程序出现了错误!</h3>
             </div>
         </div>
 
@@ -80,5 +63,11 @@
 <script th:src="@{/error/js/countUp.js}"></script>
 <!--Custom JavaScript file  -->
 <script th:src="@{/error/js/custom.js}"></script>
+<script>
+    function goback() {
+        var host = "http://" + document.domain + "/jewel/";
+        document.referrer === '' ? window.location.href = host : window.history.go(-1);
+    }
+</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 }
 body{
     background-color: white;
-    height: 5000px;
+    height: 1280px;
 }
 ul{
     list-style-type: none;
@@ -13,7 +13,7 @@ ul{
  * 顶部
  */
 .head{
-    height: 60em;
+    height: 48.82%;
     width: 100%;
 
 }
@@ -21,7 +21,7 @@ ul{
  * 轮播图像大小
  */
 .imgchangediv{
-    height: 50em;
+    height: 86.56%;
     width: 100%;
 }
 .imgchangediv img{
@@ -30,7 +30,7 @@ ul{
 }
 /*
  *图片中的一条椭圆半透明背景
- * 
+ *
  * */
 .imgyuan{
     width: 10%;
@@ -57,98 +57,91 @@ ul{
  * 小标题
  */
 .navigation{
-    height: 3em;
+    height: 13.44%;
     width: 100%;
-    font-size: 3em;
+    font-size: 1.8em;
     text-align: center;
     background-color: rgba(255,255,255,0.8);
-    z-index: 9999;
+    box-shadow:0px -5px 5px 5px #e4e3e3;
 }
 .navigation img{
-    height: 1em;
-    z-index: 9999;
+    height: 27.38%;
 }
 .memoir span,.talk span,.mondaybest span{
     display: none;
     margin-left: 0.8em;
 }
+.memoir span{
+    padding-top: -24.5%;
+}
 .memoir{
-    padding-top: 1em;
-    height: 2em;
-    width: 32%;
+    height: 100%;
+    width: 33.33%;
     position: relative;
     top: 0;
     left: 0;
 }
-
-
 .talk{
-    padding-top: 1em;
-    height: 2em;
-    width: 36%;
+    height: 100%;
+    width: 33.33%;
     position: relative;
-    margin-top: -3em;
-    top: 0;
-    left: 32%;
+    top: -100%;
+    left: 33.33%;
+    padding-top: 3%;
 }
 .mondaybest{
-    float: left;
-    padding-top: 1em;
-    height: 2em;
-    width: 32%;
+    height: 100%;
+    width: 33.33%;
     position: relative;
-    margin-top: -3em;
-    top: 0;
-    left: 68%;
+    top: -200%;
+    left: 66.66%;
 }
 /*
  * 底部
  */
 .foot{
-    height: 2.8em;
+    height: 7.66%;
     width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
-    font-size: 4em;
+    font-size: 2.4em;
     text-align: center;
-    z-index: 9999;
 }
 .background{
-    height: 2.7em;
+    height: 7.12%;
     width: 100%;
     background-color: white;
     box-shadow:0px -5px 5px 0px #cdcdcd;
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 9999;
 }
 .you{
     float: left;
-    width: 40%;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
+    width: 45%;
+    padding-top: 0.55em;
+    color: rgb(116,176,204);
 }
 .release{
     background-color: rgb(116,176,204);
-    width:3em;
-    height:3em;
+    box-shadow:3px -3px 5px 0px #cdcdcd;
+    width:2.3em;
+    height:2.3em;
     border-radius:50%;
     text-align: center;
     position: fixed;
-    bottom: 0;
-    left: 6em;
+    bottom: 1%;
+    left: 44.5%;
 }
 .release img{
-    height: 1.5em;
+    height: 0.9em;
     padding-top: 0.7em;
 }
 .me{
     float: right;
-    width: 40%;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
+    width: 45%;
+    padding-top: 0.55em;
 }
 /*
  * 内容
@@ -177,11 +170,11 @@ ul{
 /*女用户*/
 .women .c-head .dot{
     float: right;
-    width:1em;
-    height:1em;
+    width:0.55em;
+    height:0.55em;
     border-radius:50%;
-    background-color: pink;
-    margin-top: 1em;
+    background-color: #f2d5da;
+    margin-top: 0.4em;
 }
 .women .c-text{
     font-weight: 600;
@@ -189,28 +182,31 @@ ul{
 
 /*通用*/
 .contents .photo,.contents .photos{
-    height: 11em;
+    height: 7.4em;
     width: 100%;
     background-color: gray;
 }
 .contents .photo img,.contents .photos img{
-    height: 11em;
+    height: 100%;
     width: 100%;
 }
 .c-head{
-    padding: 1em 1.5em;
-    height: 3em;
+    padding: 0.5em 1em;
+    height: 1.34em;
 }
 .c-head img{
     float: left;
     border-radius:50%;
-    height: 3em;
-    width: 3em;
+    height: 1.34em;
+    width: 1.34em;
     background-color: #74b0cc;
 }
 .c-head .name{
-    margin: 1em;
+    margin-top: 0.5em;
+    margin-left: 0.55em;
     float: left;
+    font-size: 0.6em;
+    color: #a5a4a4;
 }
 .c-text{
     padding-left: 1.5em;

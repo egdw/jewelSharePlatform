@@ -1,31 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta name="viewport" content="user-scalable=no"/>
-<!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-<!-- 忽略页面中的数字识别为电话号码,email识别 -->
 <meta name="format-detection" content="telephone=no, email=no"/>
-<!-- 启用360浏览器的极速模式(webkit) -->
 <meta name="renderer" content="webkit">
-<!-- 避免IE使用兼容模式 -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
 <meta name="HandheldFriendly" content="true">
-<!-- 微软的老式浏览器 -->
 <meta name="MobileOptimized" content="320">
-<!-- uc强制竖屏 -->
 <meta name="screen-orientation" content="portrait">
-<!-- QQ强制竖屏 -->
 <meta name="x5-orientation" content="portrait">
-<!-- UC强制全屏 -->
 <meta name="full-screen" content="yes">
-<!-- QQ强制全屏 -->
 <meta name="x5-fullscreen" content="true">
-<!-- UC应用模式 -->
 <meta name="browsermode" content="application">
-<!-- QQ应用模式 -->
 <meta name="x5-page-mode" content="app">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
@@ -170,12 +157,13 @@
                     var images = "";
 
                     for (var i = 0; i < len; i++) {
-                        images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                        images = images + "<div class='swiper-slide' ><center><img class='swiper-slide' style='width: 100%;height: auto' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/></center>" + "</div>";
                     }
                     var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
                         "<div class='swiper-wrapper'>" + images + "</div></div>";
 
-                    var body = " <ul class='contents' ><li class='men'>" +
+
+                    var body = " <ul class=\"contents\" ><li class='men'>" +
                         "<div class='c-head'>" + "<img src='" + content.user.imgUrl + "'>" + "<div class='name'>" + content.user.name + "</div>" +
                         "<div class='dot'></div>" + "</div>" + " <div class='photo'>" + imgs + "</div>" +
                         "<div class='c-text'>" + "<a style=\"text-decoration: none;color: #0f0f0f\" href='" + "/jewel/detail?pageId=" + content.id + "'> " + content.text + "</a>" + "</div>" +
@@ -234,7 +222,7 @@
                     var images = "";
 
                     for (var i = 0; i < len; i++) {
-                        images = images + "<div class='swiper-slide' ><img class='swiper-slide' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/>" + "</div>";
+                        images = images + "<div class='swiper-slide' ><center><img class='swiper-slide' style='width: 100%;height: auto' src='" + "/jewel/upload/" + content.imgUrl[i] + "'/></center>" + "</div>";
                     }
                     var imgs = "<div class='swiper-container' style='width: 100%;height: 100%'>" +
                         "<div class='swiper-wrapper'>" + images + "</div></div>";
